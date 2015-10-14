@@ -1,0 +1,13 @@
+depends on sdl_mixer, install under arch with
+ sudo pacman -S extra/sdl_mixer
+
+also depends on sdl, but that should be already installed
+as a dependency when installing sdl_mixer
+
+compile with
+ gcc -lSDL_mixer -l SDL -o sound_test soundserver_test_main.c
+
+user running the software has to be in the audio group:
+ sudo usermod -aG audio <user>
+then logout and login again with <user>
+

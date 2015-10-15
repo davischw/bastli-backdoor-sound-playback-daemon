@@ -1,6 +1,15 @@
+
+// libc libraries
+#include <stdio.h>
+
+// SDL libraries (sound playback)
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_error.h>
-#include <stdio.h>
+
+// RabbitMQ libraries (messaging)
+#include <amqp.h>
+
+
 
 #define AUDIO_BUF_SIZE 4096
 

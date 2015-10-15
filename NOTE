@@ -4,8 +4,15 @@ depends on sdl_mixer, install under arch with
 also depends on sdl, but that should be already installed
 as a dependency when installing sdl_mixer
 
+depends on librabbitmq
+no package on arch linux available
+library installation on arch linux strange
+on debian install package librabbitmq1
+
+
 compile with
  gcc -lSDL_mixer -l SDL -o sound_test soundserver_test_main.c
+
 
 user running the software has to be in the audio group:
  sudo usermod -aG audio <user>

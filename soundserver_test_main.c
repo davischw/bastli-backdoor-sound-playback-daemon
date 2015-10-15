@@ -21,6 +21,8 @@ int main()
                 exit(2);
         }
 
+        Mix_VolumeMusic(SDL_MIX_MAXVOLUME);
+
         sample=Mix_LoadMUS("std_sounds/back_door.wav");
         if(!sample)
         {
@@ -29,7 +31,6 @@ int main()
         }
 
         
-        Mix_VolumeMusic(SDL_MIX_MAXVOLUME);
         if(Mix_PlayMusic(sample, 1)==-1)
         {
                 exit(4);
@@ -38,6 +39,7 @@ int main()
         while(Mix_PlayingMusic());
 
         Mix_FreeMusic(sample);
+
         Mix_CloseAudio();
         Mix_Quit();
 

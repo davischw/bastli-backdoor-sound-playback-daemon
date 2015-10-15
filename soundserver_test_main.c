@@ -22,6 +22,12 @@ int main()
         int audio_playback_initalization_flags = MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD;
 
         amqp_connection_state_t conn = amqp_new_connection();
+        amqp_socket_t *socket = NULL;
+        amqp_rpc_reply_t reply_status;
+        int port, status;
+
+        
+        // SDL mix audio setup
 
         if(Mix_Init(audio_playback_initalization_flags) != audio_playback_initalization_flags)
         {
@@ -37,12 +43,40 @@ int main()
 
         Mix_VolumeMusic(SDL_MIX_MAXVOLUME);
 
+
+        // rabbitmq setup
+
+        socket = amqp_tcp_socket_new(conn);
+        if(!socket)
+        {
+                fprintf(stderr,"rabbitmq: error creating TCP socket\n");
+        }
+
+        status = amqp_socket_open(socket, hostname, port);
+        if(status)
+        {
+                fprintf(stderr,"rabbitmq: error opening TCP socket\n");
+        }
+
+        reply_status = amqp_login(
+                conn,
+                RABBITMQ_VHOST_DEFAULT,
+                AMQP_DEFAULT_MAX_CHANNELS,
+                AMQP_DEFAULT_FRAME_SIZE,
+                RABBITMQ_HEARTBEAT_DISABLE,
+                AMQP_SASL_METHOD_PLAIN,
+                "guest", "guest");
+        
+
+
+        
         sample=Mix_LoadMUS("std_sounds/back_door.wav");
         if(!sample)
         {
                 fprintf(stderr, "error: %s\n", Mix_GetError());
                 exit(3);
         }
+
 
         
         if(Mix_PlayMusic(sample, 1)==-1)

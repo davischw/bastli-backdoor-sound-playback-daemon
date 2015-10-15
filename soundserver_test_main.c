@@ -18,6 +18,8 @@ int main()
         Mix_Music *sample;
         int audio_playback_initalization_flags = MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD;
 
+        amqp_connection_state_t conn = amqp_new_connection();
+
         if(Mix_Init(audio_playback_initalization_flags) != audio_playback_initalization_flags)
         {
                 fprintf(stderr,"Could not initialize SDL mixer, error message: %s\n",Mix_GetError());

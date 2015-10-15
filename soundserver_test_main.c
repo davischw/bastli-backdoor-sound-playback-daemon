@@ -2,21 +2,24 @@
 #include <SDL/SDL_error.h>
 #include <stdio.h>
 
+#define AUDIO_BUF_SIZE 4096
 
 int main()
 {
+        Mix_Music *sample;
         int audio_playback_initalization_flags = MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD;
+
         if(Mix_Init(audio_playback_initalization_flags) != audio_playback_initalization_flags)
         {
+                fprintf(stderr,"Could not initialize SDL mixer, error message: %s\n",Mix_GetError());
                 exit(1);
         }
 
-        if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY,MIX_DEFAULT_FORMAT,2,4096)<0)
+        if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY,MIX_DEFAULT_FORMAT,2,AUDIO_BUF_SIZE)<0)
         {
+                fprintf(stderr,"Could not open SDL mixer audio channels, error message: %s\n",Mix_GetError());
                 exit(2);
         }
-
-        Mix_Music *sample;
 
         sample=Mix_LoadMUS("/home/bastli/soundserver/back_door.wav");
         if(!sample)

@@ -12,6 +12,9 @@
 
 
 #define AUDIO_BUF_SIZE 4096
+#define RABBITMQ_VHOST_DEFAULT "/"
+#define RABBITMQ_HEARTBEAT_DISABLE 0
+
 
 int main()
 {

@@ -21,7 +21,7 @@ int main()
                 exit(2);
         }
 
-        sample=Mix_LoadMUS("/home/bastli/soundserver/back_door.wav");
+        sample=Mix_LoadMUS("std_sounds/back_door.wav");
         if(!sample)
         {
                 fprintf(stderr, "error: %s\n", Mix_GetError());

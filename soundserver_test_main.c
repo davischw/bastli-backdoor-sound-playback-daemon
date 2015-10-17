@@ -74,6 +74,11 @@ int main()
                 RABBITMQ_SERVER_TESTUSER,
                 RABBITMQ_SERVER_TESTPW);
 
+        if(AMQP_RESPONSE_NORMAL != reply_status.reply_type)
+        {
+                fprintf(stderr, "rabbitmq: could not login to br0ker, reply_type=%d\n", reply_status.reply_type);
+                exit(5);
+        }
 
 
         

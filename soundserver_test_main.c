@@ -21,6 +21,8 @@
 #define RABBITMQ_SERVER_TESTUSER "windows_test"
 #define RABBITMQ_SERVER_TESTPW "foobar"
 #define RABBITMQ_SERVER_EXCHANGE_NAME "backdoor"
+#define RABBITMQ_ROUTING_KEY "lock.open.*"
+
 
 
 int main()
@@ -110,10 +112,17 @@ int main()
                 exit(7);
         }
         
-//        amqp_queue_bind(state, chan, qname,
-//                        amqp_cstring_bytes(RABBITMQ_SERVER_EXCHANGE_NAME),
-//                        /* TODO: Wait for someone to make doku */
-//                );
+        amqp_queue_bind(state, chan, qname,
+                        amqp_cstring_bytes(RABBITMQ_SERVER_EXCHANGE_NAME),
+                        amqp_cstring_bytes(RABBITMQ_ROUTING_KEY),
+                        amqp_empty_table);
+        reply_status = amqp_get_rpc_reply(conn);
+        if(AMQP_RESPONSE_NORMAL != reply_status.reply_type)
+        {
+                fprintf(stderr, "rabbitmq: could not bind queue, reply_type=%d\n", reply_status.reply_type);
+                exit(8);
+        }
+
 
 
         sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");

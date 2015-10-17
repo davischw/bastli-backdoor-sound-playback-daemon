@@ -34,7 +34,7 @@ int main()
         int status;
         amqp_channel_t chan = 1;
         amqp_queue_declare_ok_t *r = NULL;
-        amqp_bytes_t queuename;
+        amqp_bytes_t qname;
         
         // SDL mix audio setup
 
@@ -102,8 +102,8 @@ int main()
                 exit(6);
         }
 
-        queuename = amqp_bytes_malloc_dup(r->queue);
-        if(NULL == queuename.bytes)
+        qname = amqp_bytes_malloc_dup(r->queue);
+        if(NULL == qname.bytes)
         {
                 fprintf(stderr, "rabbitmq: out of memory while copying queue name\n");
                 exit(7);

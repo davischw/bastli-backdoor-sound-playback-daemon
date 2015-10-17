@@ -9,7 +9,7 @@
 
 // RabbitMQ libraries (messaging)
 #include <amqp.h>
-
+#include <amqp_tcp_socket.h>
 
 
 #define AUDIO_BUF_SIZE 4096

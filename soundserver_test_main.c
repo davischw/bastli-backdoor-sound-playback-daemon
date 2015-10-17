@@ -27,11 +27,14 @@ int main()
         Mix_Music *sample;
         int audio_playback_initalization_flags = MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD;
 
+        // rabbitmq variables
         amqp_connection_state_t conn = amqp_new_connection();
         amqp_socket_t *socket = NULL;
         amqp_rpc_reply_t reply_status;
-        int port, status;
-
+        int status;
+        amqp_channel_t chan = 1;
+        amqp_queue_declare_ok_t *r = NULL;
+        amqp_bytes_t queuename;
         
         // SDL mix audio setup
 
@@ -80,7 +83,26 @@ int main()
                 exit(5);
         }
 
+        amqp_channel_open(conn, chan);
+        reply_status = amqp_get_rpc_reply(conn);
+        if(AMQP_RESPONSE_NORMAL != reply_status.reply_type)
+        {
+                fprintf(stderr, "rabbitmq: could not open channel, reply_type=%d\n", reply_status.reply_type);
+                exit(6);
+        }
 
+        // i have no clue what those random 0 and 1 parameters do,
+        // they are not documented, but dominik told me it works with those
+        r = amqp_queue_declare(conn, chan, amqp_empty_bytes, 0, 0, 0, 1,
+                                 amqp_empty_table);
+        reply_status = amqp_get_rpc_reply(conn);
+        if(AMQP_RESPONSE_NORMAL != reply_status.reply_type)
+        {
+                fprintf(stderr, "rabbitmq: could not declare queue, reply_type=%d\n", reply_status.reply_type);
+                exit(6);
+        }
+        
+        
         
         sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");
         if(!sample)

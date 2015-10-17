@@ -112,7 +112,7 @@ int main()
                 exit(7);
         }
         
-        amqp_queue_bind(state, chan, qname,
+        amqp_queue_bind(conn, chan, qname,
                         amqp_cstring_bytes(RABBITMQ_SERVER_EXCHANGE_NAME),
                         amqp_cstring_bytes(RABBITMQ_ROUTING_KEY),
                         amqp_empty_table);

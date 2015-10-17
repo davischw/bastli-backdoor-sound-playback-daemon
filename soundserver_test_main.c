@@ -1,3 +1,4 @@
+/* In The Name of Allah */
 
 // libc libraries
 #include <stdio.h>
@@ -70,7 +71,7 @@ int main()
 
 
         
-        sample=Mix_LoadMUS("std_sounds/back_door.wav");
+        sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");
         if(!sample)
         {
                 fprintf(stderr, "error: %s\n", Mix_GetError());

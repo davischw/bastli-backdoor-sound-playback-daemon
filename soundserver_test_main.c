@@ -123,6 +123,19 @@ int main()
                 exit(8);
         }
 
+        // again i have no clue what the parameters do or why i have to call this function
+        // in setup but the only documentation is sample code where this line is copied from
+        // wtf does consuming basic even mean?
+        amqp_basic_consume(conn, chan, qname, amqp_empty_bytes, 0, 1, 0, amqp_empty_table);
+        reply_status = amqp_get_rpc_reply(conn);
+        if(AMQP_RESPONSE_NORMAL != reply_status.reply_type)
+        {
+                fprintf(stderr, "rabbitmq: could not consume basic, reply_type=%d\n", reply_status.reply_type);
+                exit(9);
+        }
+
+        // end setup rmq
+
 
 
         sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");

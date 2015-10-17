@@ -16,6 +16,8 @@
 #define RABBITMQ_VHOST_DEFAULT "/"
 #define RABBITMQ_HEARTBEAT_DISABLE 0
 
+#define RABBITMQ_SERVER_HOSTNAME "backdoor.bastli.ch"
+#define RABBITMQ_SERVER_PORT 5672
 
 int main()
 {
@@ -53,7 +55,7 @@ int main()
                 fprintf(stderr,"rabbitmq: error creating TCP socket\n");
         }
 
-        status = amqp_socket_open(socket, hostname, port);
+        status = amqp_socket_open(socket, RABBITMQ_SERVER_HOSTNAME, RABBITMQ_SERVER_PORT);
         if(status)
         {
                 fprintf(stderr,"rabbitmq: error opening TCP socket\n");

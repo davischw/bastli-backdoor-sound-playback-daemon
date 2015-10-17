@@ -20,6 +20,7 @@
 #define RABBITMQ_SERVER_PORT 5672
 #define RABBITMQ_SERVER_TESTUSER "windows_test"
 #define RABBITMQ_SERVER_TESTPW "foobar"
+#define RABBITMQ_SERVER_EXCHANGE_NAME "backdoor"
 
 
 int main()
@@ -109,7 +110,12 @@ int main()
                 exit(7);
         }
         
-        
+//        amqp_queue_bind(state, chan, qname,
+//                        amqp_cstring_bytes(RABBITMQ_SERVER_EXCHANGE_NAME),
+//                        /* TODO: Wait for someone to make doku */
+//                );
+
+
         sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");
         if(!sample)
         {

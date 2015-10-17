@@ -101,7 +101,13 @@ int main()
                 fprintf(stderr, "rabbitmq: could not declare queue, reply_type=%d\n", reply_status.reply_type);
                 exit(6);
         }
-        
+
+        queuename = amqp_bytes_malloc_dup(r->queue);
+        if(NULL == queuename.bytes)
+        {
+                fprintf(stderr, "rabbitmq: out of memory while copying queue name\n");
+                exit(7);
+        }
         
         
         sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");

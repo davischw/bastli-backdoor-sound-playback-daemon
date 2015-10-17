@@ -138,6 +138,38 @@ int main()
 
 
 
+        // TEST SETUP TO READ MESSAGES, NOT FINAL
+        while (1) {
+                amqp_rpc_reply_t res;
+                amqp_envelope_t envelope;
+
+                amqp_maybe_release_buffers(conn);
+
+                res = amqp_consume_message(conn, &envelope, NULL, 0);
+
+                if (AMQP_RESPONSE_NORMAL != res.reply_type) {
+                        break;
+                }
+
+                printf("Delivery %u, exchange %.*s routingkey %.*s\n",
+                       (unsigned) envelope.delivery_tag,
+                       (int) envelope.exchange.len, (char *) envelope.exchange.bytes,
+                       (int) envelope.routing_key.len, (char *) envelope.routing_key.bytes);
+
+                if (envelope.message.properties._flags & AMQP_BASIC_CONTENT_TYPE_FLAG) {
+                        printf("Content-type: %.*s\n",
+                               (int) envelope.message.properties.content_type.len,
+                               (char *) envelope.message.properties.content_type.bytes);
+                }
+                printf("----\n");
+
+                amqp_dump(envelope.message.body.bytes, envelope.message.body.len);
+
+                amqp_destroy_envelope(&envelope);
+        }
+
+
+
         sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");
         if(!sample)
         {

@@ -18,6 +18,9 @@
 
 #define RABBITMQ_SERVER_HOSTNAME "backdoor.bastli.ch"
 #define RABBITMQ_SERVER_PORT 5672
+#define RABBITMQ_SERVER_TESTUSER "windows_test"
+#define RABBITMQ_SERVER_TESTPW "foobar"
+
 
 int main()
 {
@@ -68,8 +71,9 @@ int main()
                 AMQP_DEFAULT_FRAME_SIZE,
                 RABBITMQ_HEARTBEAT_DISABLE,
                 AMQP_SASL_METHOD_PLAIN,
-                "guest", "guest");
-        
+                RABBITMQ_SERVER_TESTUSER,
+                RABBITMQ_SERVER_TESTPW);
+
 
 
         

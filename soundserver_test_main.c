@@ -11,6 +11,8 @@
 #include <amqp.h>
 #include <amqp_tcp_socket.h>
 
+// local headers
+#include "rmq_interface.h"
 
 #define AUDIO_BUF_SIZE 4096
 #define RABBITMQ_VHOST_DEFAULT "/"

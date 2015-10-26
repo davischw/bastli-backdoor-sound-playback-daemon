@@ -142,6 +142,7 @@ int main()
         while (1) {
                 amqp_rpc_reply_t res;
                 amqp_envelope_t envelope;
+                char *str = NULL;
 
                 amqp_maybe_release_buffers(conn);
 
@@ -163,7 +164,9 @@ int main()
                 }
                 printf("----\n");
 
-                printf("body msg:\n%s\nbody len=%d\n%%%%%%%%\n", envelope.message.body.bytes, envelope.message.body.len);
+                str = amqp_msg_to_str(envelope.message.body.bytes);
+                printf("body msg:\n%s\nbody len=%d\n%%%%%%%%\n", str, envelope.message.body.len);
+                free(str);
 
                 amqp_destroy_envelope(&envelope);
         }

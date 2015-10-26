@@ -9,6 +9,9 @@ no package on arch linux available
 library installation on arch linux strange
 on debian install package librabbitmq1
 
+depends on a libc which supports the %z printf formatstring
+modifier, MSVC uses %I instead of the standard, thanks oballmer
+
 build with make
 
 user running the software has to be in the audio group:

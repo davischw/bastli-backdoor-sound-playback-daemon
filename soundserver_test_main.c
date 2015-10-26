@@ -166,7 +166,7 @@ int main()
                 }
                 printf("----\n");
 
-                str = amqp_msg_to_str(envelope.message.body.bytes);
+                str = amqp_bytes_to_str(envelope.message.body);
                 printf("body msg:\n%s\nbody len=%d\n%%%%%%%%\n", str, envelope.message.body.len);
                 free(str);
 

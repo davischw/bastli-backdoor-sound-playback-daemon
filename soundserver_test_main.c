@@ -163,7 +163,7 @@ int main()
                 }
                 printf("----\n");
 
-                amqp_dump(envelope.message.body.bytes, envelope.message.body.len);
+                printf("body msg:\n%s\nbody len=%d\n%%%%%%%%\n", envelope.message.body.bytes, envelope.message.body.len);
 
                 amqp_destroy_envelope(&envelope);
         }

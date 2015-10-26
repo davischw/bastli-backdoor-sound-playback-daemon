@@ -41,6 +41,9 @@ int main()
         amqp_queue_declare_ok_t *r = NULL;
         amqp_bytes_t qname;
         
+        amqp_rpc_reply_t res;
+        amqp_envelope_t envelope;
+
         // SDL mix audio setup
 
         if(Mix_Init(audio_playback_initalization_flags) != audio_playback_initalization_flags)
@@ -142,8 +145,6 @@ int main()
 
         // TEST SETUP TO READ MESSAGES, NOT FINAL
         while (1) {
-                amqp_rpc_reply_t res;
-                amqp_envelope_t envelope;
                 char *str = NULL;
 
                 amqp_maybe_release_buffers(conn);
@@ -154,21 +155,26 @@ int main()
                         break;
                 }
 
+                /*
                 printf("Delivery %u, exchange %.*s routingkey %.*s\n",
                        (unsigned) envelope.delivery_tag,
                        (int) envelope.exchange.len, (char *) envelope.exchange.bytes,
                        (int) envelope.routing_key.len, (char *) envelope.routing_key.bytes);
+                */
 
+                /*
                 if (envelope.message.properties._flags & AMQP_BASIC_CONTENT_TYPE_FLAG) {
                         printf("Content-type: %.*s\n",
                                (int) envelope.message.properties.content_type.len,
                                (char *) envelope.message.properties.content_type.bytes);
                 }
-                printf("----\n");
+                */
 
+                /*
                 str = amqp_bytes_to_str(&(envelope.message.body));
                 printf("body msg:\n%s\nbody len=%d\n%%%%%%%%\n", str, envelope.message.body.len);
                 free(str);
+                */
 
                 amqp_destroy_envelope(&envelope);
         }

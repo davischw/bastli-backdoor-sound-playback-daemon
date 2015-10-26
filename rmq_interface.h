@@ -3,9 +3,13 @@
 #ifndef _RMQ_INTERFACE_H_
 #define _RMQ_INTERFACE_H_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // for amqp_message_t
 #include <amqp.h>
+
 
 /**
  * converts amqp_bytes_t into a c string.

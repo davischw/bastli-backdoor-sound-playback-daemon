@@ -9,12 +9,14 @@ no package on arch linux available
 library installation on arch linux strange
 on debian install package librabbitmq1
 
-
-compile with
- gcc -lSDL_mixer -lSDL -lrabbitmq -o sound_test soundserver_test_main.c
-
+build with make
 
 user running the software has to be in the audio group:
  sudo usermod -aG audio <user>
 then logout and login again with <user>
+
+
+# outdated
+compile with
+ gcc -lSDL_mixer -lSDL -lrabbitmq -o sound_test soundserver_test_main.c
 

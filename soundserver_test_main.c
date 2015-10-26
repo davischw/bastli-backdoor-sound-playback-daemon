@@ -166,7 +166,7 @@ int main()
                 }
                 printf("----\n");
 
-                str = amqp_bytes_to_str(envelope.message.body);
+                str = amqp_bytes_to_str(&(envelope.message.body));
                 printf("body msg:\n%s\nbody len=%d\n%%%%%%%%\n", str, envelope.message.body.len);
                 free(str);
 
@@ -183,7 +183,6 @@ int main()
         }
 
 
-        
         if(Mix_PlayMusic(sample, 1)==-1)
         {
                 exit(4);

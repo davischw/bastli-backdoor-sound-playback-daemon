@@ -214,7 +214,7 @@ int main()
                 }
                 
                 // free the object
-                json_object_put(received_msg);
+                json_object_put(json_msg);
                 
                 amqp_destroy_envelope(&envelope);
         }

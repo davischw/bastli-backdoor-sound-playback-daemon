@@ -11,6 +11,9 @@
 #include <amqp.h>
 #include <amqp_tcp_socket.h>
 
+// json-c library
+#include <json-c/json.h>
+
 // local headers
 #include "rmq_interface.h"
 

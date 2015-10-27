@@ -52,7 +52,7 @@ int main()
         json_object *json_msg = NULL;
         json_object *extracted_field = NULL;
         char *msg_cstr = NULL;
-        char *filename = NULL;
+        const char *filename = NULL;
         FILE *audiofile = NULL;
 
         // SDL mix audio setup

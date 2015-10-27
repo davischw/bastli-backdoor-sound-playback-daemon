@@ -198,6 +198,7 @@ int main()
                                                 fclose(audiofile);
                                                 // TODO
                                                 //play_music(filename);
+                                                break;
                                         }
                                         else
                                         {

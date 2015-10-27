@@ -1,6 +1,6 @@
 
 all: soundserver_test_main.o rmq_interface.o
-	gcc -lSDL_mixer -lSDL -lrabbitmq -o sound_test soundserver_test_main.o rmq_interface.o
+	gcc -lSDL_mixer -lSDL -lrabbitmq -ljson-c -o sound_test soundserver_test_main.o rmq_interface.o
 
 soundserver_test_main.o: soundserver_test_main.c
 	gcc -c soundserver_test_main.c

@@ -183,7 +183,7 @@ int main()
                 {
                         // i hope the library is smart enough to handle writing
                         // and input object being the same
-                        if(json_object_object_get_ex(inner_field, "sound", &extracted_field) &&
+                        if(json_object_object_get_ex(extracted_field, "sound", &inner_field) &&
                            json_object_get_string_len(inner_field) > 0)
                         {
                                 // memory is somehow managed by json library, so no free()ing

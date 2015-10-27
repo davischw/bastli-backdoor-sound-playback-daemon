@@ -186,7 +186,7 @@ int main()
                            json_object_get_string_len(extracted_field) > 0)
                         {
                                 // memory is somehow managed by json library, so no free()ing
-                                filename_json = json_object_get_string(extracted_field);
+                                json_filename = json_object_get_string(extracted_field);
                                 
                                 // check whether filename has no directories inside
                                 if(NULL == strchr(json_filename, '/') &&

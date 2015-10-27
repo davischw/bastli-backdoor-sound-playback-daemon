@@ -29,7 +29,7 @@
 #define RABBITMQ_ROUTING_KEY "lock.open.*"
 
 // needs slash at end
-#define SOUNDS_DIR "std_sounds/"
+const char *sounds_dir = "std_sounds/";
 
 
 int main()
@@ -193,13 +193,13 @@ int main()
                                    NULL == strchr(json_filename, '\\'))
                                 {
                                         // add directory to filename
-                                        filename = malloc(strlen(json_filename)+strlen(SOUNDS_DIR)+1);
+                                        filename = (char *) malloc(strlen(json_filename)+strlen(sounds_dir)+1);
 
                                         if(filename != NULL)
                                         {
-                                                strcat(filename, SOUNDS_DIR);
-                                                strcat(filename+strlen(SOUNDS_DIR), json_filename);
-                                                filename[strlen(json_filename)+strlen(SOUNDS_DIR)] = '\0';
+                                                strncat(filename, sounds_dir, strlen(sounds_dir));
+                                                strncat(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
+                                                filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
                                         }
                                         else
                                         {
@@ -208,7 +208,7 @@ int main()
                                         }
                                         
                                         //testing
-                                        printf("sounddir=%s\njson_filename=%s\n,filename=%s\n",SOUNDS_DIR,json_filename,filename);
+                                        printf("sounddir=%s\njson_filename=%s\nfilename=%s\n",sounds_dir,json_filename,filename);
                                         
                                         // check whether file exists (and thus filename is valid)
                                         // by trying to read-open it

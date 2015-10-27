@@ -53,6 +53,7 @@ int main()
         // json-c variables
         json_object *json_msg = NULL;
         json_object *extracted_field = NULL;
+        json_object *inner_field = NULL;
         char *msg_cstr = NULL;
         const char *json_filename = NULL;
         char *filename = NULL;
@@ -182,11 +183,11 @@ int main()
                 {
                         // i hope the library is smart enough to handle writing
                         // and input object being the same
-                        if(json_object_object_get_ex(extracted_field, "sound", &extracted_field) &&
-                           json_object_get_string_len(extracted_field) > 0)
+                        if(json_object_object_get_ex(inner_field, "sound", &extracted_field) &&
+                           json_object_get_string_len(inner_field) > 0)
                         {
                                 // memory is somehow managed by json library, so no free()ing
-                                json_filename = json_object_get_string(extracted_field);
+                                json_filename = json_object_get_string(inner_field);
                                 
                                 // check whether filename has no directories inside
                                 if(NULL == strchr(json_filename, '/') &&
@@ -199,7 +200,6 @@ int main()
                                         {
                                                 strncat(filename, sounds_dir, strlen(sounds_dir));
                                                 strncat(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
-                                                filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
                                         }
                                         else
                                         {

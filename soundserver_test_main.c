@@ -193,7 +193,9 @@ int main()
                                    NULL == strchr(json_filename, '\\'))
                                 {
                                         // add directory to filename
-                                        if((filename = malloc(strlen(json_filename)+strlen(SOUNDS_DIR)+1)) != NULL)
+                                        filename = malloc(strlen(json_filename)+strlen(SOUNDS_DIR)+1);
+
+                                        if(filename != NULL)
                                         {
                                                 strcat(filename, SOUNDS_DIR);
                                                 strcat(filename+strlen(SOUNDS_DIR), json_filename);
@@ -205,9 +207,13 @@ int main()
                                                 exit(11);
                                         }
                                         
+                                        //testing
+                                        printf("sounddir=%s\njson_filename=%s\n,filename=%s\n",SOUNDS_DIR,json_filename,filename);
+                                        
                                         // check whether file exists (and thus filename is valid)
                                         // by trying to read-open it
                                         audiofile = fopen(filename, "r");
+
                                         // i hope the compiler doesn't optimize this away
                                         if(NULL != audiofile)
                                         {

@@ -198,8 +198,9 @@ int main()
 
                                         if(filename != NULL)
                                         {
-                                                strncat(filename, sounds_dir, strlen(sounds_dir));
-                                                strncat(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
+                                                strncpy(filename, sounds_dir, strlen(sounds_dir));
+                                                strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
+                                                filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
                                         }
                                         else
                                         {

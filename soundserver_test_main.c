@@ -32,6 +32,7 @@
 
 int main()
 {
+        // SDL audio variables
         Mix_Music *sample;
         int audio_playback_initalization_flags = MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD;
 
@@ -46,6 +47,13 @@ int main()
         
         amqp_rpc_reply_t res;
         amqp_envelope_t envelope;
+
+        // json-c variables
+        json_object *json_msg = NULL;
+        json_object *extracted_field = NULL;
+        char *msg_cstr = NULL;
+        char *filename = NULL;
+        FILE *audiofile = NULL;
 
         // SDL mix audio setup
 
@@ -148,37 +156,66 @@ int main()
 
         // TEST SETUP TO READ MESSAGES, NOT FINAL
         while (1) {
-                char *str = NULL;
-
                 amqp_maybe_release_buffers(conn);
-
+                
+                // TODO: is envelope allocated even if error below?
                 res = amqp_consume_message(conn, &envelope, NULL, 0);
-
-                if (AMQP_RESPONSE_NORMAL != res.reply_type) {
-                        break;
+                
+                if (AMQP_RESPONSE_NORMAL != res.reply_type)
+                {
+                        // TODO: log error
+                        continue;
                 }
-
-                /*
-                printf("Delivery %u, exchange %.*s routingkey %.*s\n",
-                       (unsigned) envelope.delivery_tag,
-                       (int) envelope.exchange.len, (char *) envelope.exchange.bytes,
-                       (int) envelope.routing_key.len, (char *) envelope.routing_key.bytes);
-                */
-
-                /*
-                if (envelope.message.properties._flags & AMQP_BASIC_CONTENT_TYPE_FLAG) {
-                        printf("Content-type: %.*s\n",
-                               (int) envelope.message.properties.content_type.len,
-                               (char *) envelope.message.properties.content_type.bytes);
+                
+                
+                // read from message into json object
+                msg_cstr = amqp_bytes_to_str(&(envelope.message.body));
+                json_msg = json_tokener_parse(msg_cstr);
+                free(msg_cstr);
+                msg_cstr = NULL;
+                
+                // search for a filename field
+                if(json_object_object_get_ex(json_msg, "cmd", &extracted_field))
+                {
+                        // i hope the library is smart enough to handle writing
+                        // and input object being the same
+                        if(json_object_object_get_ex(extracted_field, "sound", &extracted_field) &&
+                           json_object_get_string_len(extracted_field) > 0)
+                        {
+                                // memory is somehow managed by json library, so no free()ing
+                                filename = json_object_get_string(extracted_field);
+                                
+                                // check whether filename has no directories inside
+                                if(NULL == strchr(filename, '/') &&
+                                   NULL == strchr(filename, '\\'))
+                                {
+                                        // check whether file exists (and thus filename is valid)
+                                        // by trying to read-open it
+                                        audiofile = fopen(filename, "r");
+                                        // i hope the compiler doesn't optimize this away
+                                        if(NULL != audiofile)
+                                        {
+                                                fclose(audiofile);
+                                                // TODO
+                                                //play_music(filename);
+                                        }
+                                        else
+                                        {
+                                                // TODO
+                                                //play_music(fail);
+                                        }
+                                }
+                                else
+                                {
+                                        // TODO
+                                        //play_music(fail);
+                                }
+                        }
                 }
-                */
-
-                /*
-                str = amqp_bytes_to_str(&(envelope.message.body));
-                printf("body msg:\n%s\nbody len=%d\n%%%%%%%%\n", str, envelope.message.body.len);
-                free(str);
-                */
-
+                
+                // free the object
+                json_object_put(received_msg);
+                
                 amqp_destroy_envelope(&envelope);
         }
 

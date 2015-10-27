@@ -196,7 +196,7 @@ int main()
                                         if((filename = malloc(strlen(json_filename)+strlen(SOUNDS_DIR)+1)) != NULL)
                                         {
                                                 strcat(filename, SOUNDS_DIR);
-                                                strcat(filename, json_filename);
+                                                strcat(filename+strlen(SOUNDS_DIR), json_filename);
                                                 filename[strlen(json_filename)+strlen(SOUNDS_DIR)] = '\0';
                                         }
                                         else

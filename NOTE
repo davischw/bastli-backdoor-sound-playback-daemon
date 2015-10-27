@@ -9,6 +9,12 @@ no package on arch linux available
 library installation on arch linux strange
 on debian install package librabbitmq1
 
+depends on json-c, which is the only one i managed
+to get to run with arch because it was already
+installed (why are the infos on arch packages website
+and in pacman completely different?):
+local/json-c
+
 depends on a libc which supports the %z printf formatstring
 modifier, MSVC uses %I instead of the standard, thanks oballmer
 

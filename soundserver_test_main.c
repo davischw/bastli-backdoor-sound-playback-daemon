@@ -28,6 +28,8 @@
 #define RABBITMQ_SERVER_EXCHANGE_NAME "backdoor"
 #define RABBITMQ_ROUTING_KEY "lock.open.*"
 
+// needs slash at end
+#define SOUNDS_DIR "std_sounds/"
 
 
 int main()
@@ -52,7 +54,8 @@ int main()
         json_object *json_msg = NULL;
         json_object *extracted_field = NULL;
         char *msg_cstr = NULL;
-        const char *filename = NULL;
+        const char *json_filename = NULL;
+        char *filename = NULL;
         FILE *audiofile = NULL;
 
         // SDL mix audio setup
@@ -183,12 +186,25 @@ int main()
                            json_object_get_string_len(extracted_field) > 0)
                         {
                                 // memory is somehow managed by json library, so no free()ing
-                                filename = json_object_get_string(extracted_field);
+                                filename_json = json_object_get_string(extracted_field);
                                 
                                 // check whether filename has no directories inside
-                                if(NULL == strchr(filename, '/') &&
-                                   NULL == strchr(filename, '\\'))
+                                if(NULL == strchr(json_filename, '/') &&
+                                   NULL == strchr(json_filename, '\\'))
                                 {
+                                        // add directory to filename
+                                        if((filename = malloc(strlen(json_filename)+strlen(SOUNDS_DIR)+1)) != NULL)
+                                        {
+                                                strcat(filename, SOUNDS_DIR);
+                                                strcat(filename, json_filename);
+                                                filename[strlen(json_filename)+strlen(SOUNDS_DIR)] = '\0';
+                                        }
+                                        else
+                                        {
+                                                fprintf(stderr, "could not allocate memory for filepath string");
+                                                exit(11);
+                                        }
+                                        
                                         // check whether file exists (and thus filename is valid)
                                         // by trying to read-open it
                                         audiofile = fopen(filename, "r");
@@ -205,6 +221,9 @@ int main()
                                                 // TODO
                                                 //play_music(fail);
                                         }
+                                        
+                                        free(filename);
+                                        filename = NULL;
                                 }
                                 else
                                 {

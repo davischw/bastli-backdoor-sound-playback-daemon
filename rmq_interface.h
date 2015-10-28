@@ -11,6 +11,15 @@
 #include <amqp.h>
 #include <amqp_tcp_socket.h>
 
+// Globals for RMQ
+#define RABBITMQ_VHOST_DEFAULT "/"
+#define RABBITMQ_HEARTBEAT_DISABLE 0
+#define RABBITMQ_SERVER_HOSTNAME "backdoor.bastli.ch"
+#define RABBITMQ_SERVER_PORT 5672
+#define RABBITMQ_SERVER_TESTUSER "windows_test"
+#define RABBITMQ_SERVER_TESTPW "foobar"
+#define RABBITMQ_SERVER_EXCHANGE_NAME "backdoor"
+#define RABBITMQ_ROUTING_KEY "lock.open.*"
 
 
 /**

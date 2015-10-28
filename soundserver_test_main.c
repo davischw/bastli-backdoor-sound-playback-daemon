@@ -125,6 +125,8 @@ int main()
                 exit(6);
         }
 
+        // i think r does not need to be free()d, but undocumented...
+        // todo: how is qname object destroyed?
         qname = amqp_bytes_malloc_dup(r->queue);
         if(NULL == qname.bytes)
         {
@@ -154,6 +156,9 @@ int main()
                 exit(9);
         }
 
+        // free qname because not needed (?) anymore
+        amqp_bytes_free(qname);
+        
         // end setup rmq
 
 
@@ -243,6 +248,7 @@ int main()
         }
 
 
+        // TODO: close ampq_socket
 
         sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");
         if(!sample)

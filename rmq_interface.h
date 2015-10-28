@@ -7,8 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-// for amqp_message_t
+// RabbitMQ libraries (messaging)
 #include <amqp.h>
+#include <amqp_tcp_socket.h>
+
 
 
 /**
@@ -21,5 +23,12 @@
  * @RETURN NULL if msg is NULL.
  */
 char *amqp_bytes_to_str(const amqp_bytes_t *bytes);
+
+/**
+ * setup everything to call amqp_consume_message()
+ * @param[in] conn pointer to the object to save connection
+ * status in
+ */
+void rmq_setup(ampq_connection_state_t *conn);
 
 #endif /* _RMQ_INTERFACE_H_ */

@@ -25,7 +25,7 @@ char *amqp_bytes_to_str(const amqp_bytes_t *bytes)
         return str;
 }
 
-void rmq_setup(ampq_connection_state_t *conn)
+void rmq_setup(amqp_connection_state_t *conn)
 {
         amqp_socket_t *socket = NULL;
         amqp_rpc_reply_t reply_status;

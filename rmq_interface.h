@@ -29,6 +29,6 @@ char *amqp_bytes_to_str(const amqp_bytes_t *bytes);
  * @param[in] conn pointer to the object to save connection
  * status in
  */
-void rmq_setup(ampq_connection_state_t *conn);
+void rmq_setup(amqp_connection_state_t *conn);
 
 #endif /* _RMQ_INTERFACE_H_ */

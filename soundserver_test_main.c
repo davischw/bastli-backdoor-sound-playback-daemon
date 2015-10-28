@@ -194,18 +194,16 @@ int main()
                                         // add directory to filename
                                         filename = (char *) malloc(strlen(json_filename)+strlen(sounds_dir)+1);
 
-                                        if(filename != NULL)
-                                        {
-                                                strncpy(filename, sounds_dir, strlen(sounds_dir));
-                                                strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
-                                                filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
-                                        }
-                                        else
+                                        if(filename == NULL)
                                         {
                                                 fprintf(stderr, "could not allocate memory for filepath string");
                                                 exit(11);
                                         }
                                         
+                                        strncpy(filename, sounds_dir, strlen(sounds_dir));
+                                        strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
+                                        filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
+
                                         //testing
                                         printf("sounddir=%s\njson_filename=%s\nfilename=%s\n",sounds_dir,json_filename,filename);
                                         

@@ -154,8 +154,6 @@ int main()
         }
 
 
-        // TODO: close ampq_socket
-
         sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");
         if(!sample)
         {
@@ -176,6 +174,9 @@ int main()
         Mix_CloseAudio();
         Mix_Quit();
 
+        // free rmq resources
+        amqp_connection_close(conn, AMQP_REPLY_SUCCESS);
+        
         return 0;
 }
 

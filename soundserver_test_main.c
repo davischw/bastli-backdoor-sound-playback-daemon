@@ -3,10 +3,6 @@
 // libc libraries
 #include <stdio.h>
 
-// SDL libraries (sound playback)
-#include <SDL/SDL_mixer.h>
-#include <SDL/SDL_error.h>
-
 // RabbitMQ libraries (messaging)
 #include <amqp.h>
 #include <amqp_tcp_socket.h>

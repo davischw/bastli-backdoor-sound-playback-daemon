@@ -1,5 +1,7 @@
 /* In The Name of Allah */
 
+#include "play_sound.h"
+
 int play_sound(const char *filename)
 {
         // SDL audio variables

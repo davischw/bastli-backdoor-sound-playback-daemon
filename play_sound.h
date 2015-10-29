@@ -13,6 +13,12 @@
 // Globals
 #define AUDIO_BUF_SIZE 4096
 
+typedef enum sound_status
+{
+        sound_success = 0,
+        sound_sample_load_fail = 3,
+        sound_sample_playback_fail = 4
+} sound_status;
 
 int play_sound(const char *filename);
 

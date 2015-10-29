@@ -31,13 +31,13 @@ int play_sound(const char *filename)
         if(!sample)
         {
                 fprintf(stderr, "error: %s\n", Mix_GetError());
-                return 3;
+                return sound_sample_load_fail;
         }
 
 
         if(Mix_PlayMusic(sample, 1)==-1)
         {
-                return 4;
+                return sound_sample_playback_fail;
         }
 
         // TODO: remove
@@ -48,5 +48,6 @@ int play_sound(const char *filename)
         Mix_CloseAudio();
         Mix_Quit();
 
+        return sound_success;
 }
 

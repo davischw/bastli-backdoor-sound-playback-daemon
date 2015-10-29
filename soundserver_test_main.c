@@ -117,7 +117,6 @@ int main(int argc, char **argv)
                                         if(NULL != audiofile)
                                         {
                                                 fclose(audiofile);
-                                                // TODO
                                                 if(sound_success != play_sound(filename))
                                                 {
                                                         play_sound(failsound);
@@ -126,8 +125,7 @@ int main(int argc, char **argv)
                                         }
                                         else
                                         {
-                                                // TODO
-                                                //play_music(fail);
+                                                play_sound(failsound);
                                         }
                                         
                                         free(filename);
@@ -135,8 +133,7 @@ int main(int argc, char **argv)
                                 }
                                 else
                                 {
-                                        // TODO
-                                        //play_music(fail);
+                                        play_sound(failsound);
                                 }
                         }
                 }

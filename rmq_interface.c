@@ -16,7 +16,7 @@ char *amqp_bytes_to_str(const amqp_bytes_t *bytes)
         if(NULL == str)
         {
                 fprintf(stderr, "Could not allocate %zu bytes. Exiting.\n", (bytes->len + 1));
-                exit(7);
+                exit(10);
         }
 
         memcpy(str, bytes->bytes, bytes->len);

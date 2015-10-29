@@ -10,6 +10,9 @@
 // json-c library
 #include <json-c/json.h>
 
+// SDL libraries (sound playback)
+#include <SDL/SDL_mixer.h>
+
 // local headers
 #include "rmq_interface.h"
 #include "play_sound.h"
@@ -46,19 +49,20 @@ int main(int argc, char **argv)
 
 
         // TEST SETUP TO READ MESSAGES, NOT FINAL
-        while (1) {
+        while (1)
+        {
                 amqp_maybe_release_buffers(conn);
                 
                 // TODO: is envelope allocated even if error below?
                 res = amqp_consume_message(conn, &envelope, NULL, 0);
                 
-                if (AMQP_RESPONSE_NORMAL != res.reply_type)
+                if(AMQP_RESPONSE_NORMAL != res.reply_type)
                 {
                         // TODO: log error
+                        amqp_destroy_envelope(&envelope);
                         continue;
                 }
-                
-                
+
                 // read from message into json object
                 msg_cstr = amqp_bytes_to_str(&(envelope.message.body));
                 json_msg = json_tokener_parse(msg_cstr);
@@ -71,6 +75,15 @@ int main(int argc, char **argv)
                         if(json_object_object_get_ex(extracted_field, "sound", &inner_field) &&
                            json_object_get_string_len(inner_field) > 0)
                         {
+                                // don't play music if something is already playing
+                                if(Mix_PlayingMusic())
+                                {
+                                        json_object_put(json_msg);
+                                        amqp_destroy_envelope(&envelope);
+                                        continue;                        
+                                }
+
+
                                 // memory is somehow managed by json library, so no free()ing
                                 json_filename = json_object_get_string(inner_field);
                                 
@@ -91,8 +104,8 @@ int main(int argc, char **argv)
                                         strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
                                         filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
 
-                                        //testing
-                                        printf("sounddir=%s\njson_filename=%s\nfilename=%s\n",sounds_dir,json_filename,filename);
+                                        // testing
+                                        //printf("sounddir=%s\njson_filename=%s\nfilename=%s\n",sounds_dir,json_filename,filename);
                                         
                                         // check whether file exists (and thus filename is valid)
                                         // by trying to read-open it
@@ -104,7 +117,7 @@ int main(int argc, char **argv)
                                                 fclose(audiofile);
                                                 // TODO
                                                 play_sound(filename);
-                                                break;
+                                                //break;
                                         }
                                         else
                                         {

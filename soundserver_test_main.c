@@ -14,9 +14,6 @@
 #include "rmq_interface.h"
 #include "play_sound.h"
 
-// Globals
-#define AUDIO_BUF_SIZE 4096
-
 
 // needs slash at end
 const char *sounds_dir = "std_sounds/";
@@ -106,7 +103,7 @@ int main(int argc, char **argv)
                                         {
                                                 fclose(audiofile);
                                                 // TODO
-                                                //play_music(filename);
+                                                play_sound(filename);
                                                 break;
                                         }
                                         else

@@ -10,6 +10,9 @@
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_error.h>
 
+// Globals
+#define AUDIO_BUF_SIZE 4096
+
 
 int play_sound(const char *filename);
 

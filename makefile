@@ -1,12 +1,15 @@
 
-all: soundserver_test_main.o rmq_interface.o
-	gcc -lSDL_mixer -lSDL -lrabbitmq -ljson-c -o sound_test soundserver_test_main.o rmq_interface.o
+all: soundserver_test_main.o rmq_interface.o play_sound.o
+	gcc -lSDL_mixer -lSDL -lrabbitmq -ljson-c -o sound_test soundserver_test_main.o rmq_interface.o play_sound.o
 
 soundserver_test_main.o: soundserver_test_main.c
 	gcc -c soundserver_test_main.c
 
 rmq_interface.o: rmq_interface.c rmq_interface.h
 	gcc -c rmq_interface.c
+
+play_sound.o: play_sound.c play_sound.h
+	gcc -c play_sound.c
 
 clean:
 	rm *.o

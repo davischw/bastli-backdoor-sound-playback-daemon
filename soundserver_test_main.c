@@ -21,6 +21,8 @@
 // needs slash at end
 const char *sounds_dir = "std_sounds/";
 
+const char *failsound = "jungle2.wav";
+
 
 int main(int argc, char **argv)
 {
@@ -116,7 +118,10 @@ int main(int argc, char **argv)
                                         {
                                                 fclose(audiofile);
                                                 // TODO
-                                                play_sound(filename);
+                                                if(sound_success != play_sound(filename))
+                                                {
+                                                        play_sound(failsound);
+                                                }
                                                 //break;
                                         }
                                         else

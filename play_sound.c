@@ -20,6 +20,7 @@ int play_sound(const char *filename)
         if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY,MIX_DEFAULT_FORMAT,2,AUDIO_BUF_SIZE)<0)
         {
                 fprintf(stderr,"Could not open SDL mixer audio channels, error message: %s\n",Mix_GetError());
+                Mix_Quit();
                 exit(2);
         }
 
@@ -31,12 +32,17 @@ int play_sound(const char *filename)
         if(!sample)
         {
                 fprintf(stderr, "error: %s\n", Mix_GetError());
+                Mix_CloseAudio();
+                Mix_Quit();
                 return sound_sample_load_fail;
         }
 
 
         if(Mix_PlayMusic(sample, 1)==-1)
         {
+                Mix_FreeMusic(sample);
+                Mix_CloseAudio();
+                Mix_Quit();
                 return sound_sample_playback_fail;
         }
 

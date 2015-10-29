@@ -12,6 +12,7 @@
 
 // local headers
 #include "rmq_interface.h"
+#include "play_sound.h"
 
 // Globals
 #define AUDIO_BUF_SIZE 4096

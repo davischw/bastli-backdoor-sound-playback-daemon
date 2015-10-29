@@ -27,17 +27,17 @@ int play_sound(const char *filename)
 
         // end setup
 
-        sample=Mix_LoadMUS("std_sounds/ziegenficker.ogg");
+        sample=Mix_LoadMUS(filename);
         if(!sample)
         {
                 fprintf(stderr, "error: %s\n", Mix_GetError());
-                exit(3);
+                return 3;
         }
 
 
         if(Mix_PlayMusic(sample, 1)==-1)
         {
-                exit(4);
+                return 4;
         }
 
         // TODO: remove

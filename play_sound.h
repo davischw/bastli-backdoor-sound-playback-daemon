@@ -18,9 +18,11 @@ typedef enum sound_status
 {
         sound_success = 0,
         sound_sample_load_fail = 3,
-        sound_sample_playback_fail = 4
+        sound_sample_playback_fail = 4,
+        sound_playing = 14,
+        sound_finished = 15
 } sound_status;
 
-int play_sound(const char *filename);
+int play_sound(const char *filename, Mix_Music *sample);
 
 #endif /* _PLAY_SOUND_H_ */

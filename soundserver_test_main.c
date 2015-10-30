@@ -42,6 +42,10 @@ int main(int argc, char **argv)
         FILE *audiofile = NULL;
         char *filename = NULL;
 
+        sound_status s = sound_success;
+        // pointer to sample, has to be managed by caller
+        Mix_Music *sample = NULL;
+
 
         // rabbitmq setup
         rmq_setup(&conn);
@@ -53,6 +57,25 @@ int main(int argc, char **argv)
         // TEST SETUP TO READ MESSAGES, NOT FINAL
         while (1)
         {
+                // unload all audio stuff after a sound has
+                // finished playing, otherwise speaker makes
+                // noise after sound finished
+                if(sound_playing == s)
+                {
+                        if(!Mix_PlayingMusic())
+                        {
+                                Mix_FreeMusic(sample);
+                                sample = NULL;
+                                Mix_CloseAudio();
+                                Mix_Quit();
+                                s = sound_finished;
+                        }
+                }
+                else if (sound_finished != s && sound_success != s)
+                {
+                        exit(s);
+                }
+                
                 amqp_maybe_release_buffers(conn);
                 
                 // TODO: is envelope allocated even if error below?
@@ -78,17 +101,16 @@ int main(int argc, char **argv)
                            json_object_get_string_len(inner_field) > 0)
                         {
                                 // don't play music if something is already playing
-                                if(Mix_PlayingMusic())
+                                if(sound_playing == s)
                                 {
                                         json_object_put(json_msg);
                                         amqp_destroy_envelope(&envelope);
                                         continue;                        
                                 }
 
-
                                 // memory is somehow managed by json library, so no free()ing
                                 json_filename = json_object_get_string(inner_field);
-                                
+
                                 // check whether filename has no directories inside
                                 if(NULL == strchr(json_filename, '/') &&
                                    NULL == strchr(json_filename, '\\'))
@@ -101,7 +123,7 @@ int main(int argc, char **argv)
                                                 fprintf(stderr, "could not allocate memory for filepath string");
                                                 exit(11);
                                         }
-                                        
+
                                         strncpy(filename, sounds_dir, strlen(sounds_dir));
                                         strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
                                         filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
@@ -117,23 +139,24 @@ int main(int argc, char **argv)
                                         if(NULL != audiofile)
                                         {
                                                 fclose(audiofile);
-                                                if(sound_success != play_sound(filename))
+                                                s = play_sound(filename, sample);
+                                                if(sound_playing != s && sound_finished != s)
                                                 {
-                                                        play_sound(failsound);
+                                                        s = play_sound(failsound, sample);
                                                 }
                                                 //break;
                                         }
                                         else
                                         {
-                                                play_sound(failsound);
+                                                s = play_sound(failsound, sample);
                                         }
-                                        
+
                                         free(filename);
                                         filename = NULL;
                                 }
                                 else
                                 {
-                                        play_sound(failsound);
+                                        s = play_sound(failsound, sample);
                                 }
                         }
                 }

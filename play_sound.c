@@ -2,10 +2,9 @@
 
 #include "play_sound.h"
 
-int play_sound(const char *filename)
+int play_sound(const char *filename, Mix_Music *sample)
 {
         // SDL audio variables
-        Mix_Music *sample;
         int audio_playback_initalization_flags = MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD;
 
 
@@ -47,13 +46,13 @@ int play_sound(const char *filename)
         }
 
         // TODO: remove
-        while(Mix_PlayingMusic());
+        //while(Mix_PlayingMusic());
 
-        Mix_FreeMusic(sample);
+        //Mix_FreeMusic(sample);
 
-        Mix_CloseAudio();
-        Mix_Quit();
+        //Mix_CloseAudio();
+        //Mix_Quit();
 
-        return sound_success;
+        return sound_playing;
 }
 

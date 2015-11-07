@@ -3,6 +3,9 @@
 // libc libraries
 #include <stdio.h>
 
+// UNIX libraries
+#include <unistd.h>
+
 // RabbitMQ libraries (messaging)
 #include <amqp.h>
 #include <amqp_tcp_socket.h>
@@ -24,7 +27,8 @@ const char *sounds_dir = "std_sounds/";
 const char *failsound = "std_sounds/jungle2.wav";
 
 
-int main(int argc, char **argv)
+
+int msg_parse_proc_main()
 {
         // rabbitmq variables
         amqp_connection_state_t conn = NULL;

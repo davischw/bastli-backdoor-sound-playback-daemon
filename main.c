@@ -148,7 +148,7 @@ int main(int argc, char **argv)
                         // notice if child didn't terminate, this shouldn't happen normally
                         else if(!WIFEXITED(wait_status))
                         {
-                                fprintf(stderror, "child changed status but didn't exit, this should not happen!\n");
+                                fprintf(stderr, "child changed status but didn't exit, this should not happen!\n");
                         }
                 }
 

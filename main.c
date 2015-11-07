@@ -14,6 +14,8 @@
 #include <signal.h>
 
 
+#include "soundserver_parent_main.h"
+
 #define STATUS_UNCHANGED 0
 #define STATUS_ERROR -1
 

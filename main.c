@@ -84,7 +84,7 @@ int main(int argc, char **argv)
                 }
 
                 // MAIN FOR PARENT
-                parent_return_code = return msg_parse_proc_main();
+                parent_return_code = msg_parse_proc_main();
 
                 // child terminated and SIGCHLD was caught
                 if(child_exited == 1)

@@ -98,7 +98,7 @@ int main(int argc, char **argv)
                 
                 // if the child still exists, signal it to
                 // terminate and wait for the child
-                if(STATUS_UNCHANGED == waidpid_value ||
+                if(STATUS_UNCHANGED == waitpid_value ||
                    STATUS_ERROR == waitpid_value)
                 {
                         // display error cause

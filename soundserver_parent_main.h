@@ -30,7 +30,7 @@ const char *sounds_dir = "std_sounds/";
 const char *failsound = "std_sounds/jungle2.wav";
 
 
-int msg_parse_proc_main();
+int msg_parse_proc_main(int pipe_write);
 
 
 #endif /* _SOUNDSERVER_PARENT_MAIN_H_ */

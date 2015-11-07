@@ -3,7 +3,7 @@
 #include "soundserver_parent_main.h"
 
 
-int msg_parse_proc_main()
+int msg_parse_proc_main(int pipe_write)
 {
         // rabbitmq variables
         amqp_connection_state_t conn = NULL;

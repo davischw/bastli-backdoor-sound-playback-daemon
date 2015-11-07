@@ -36,9 +36,14 @@ int main(int argc, char **argv)
         // we store its pid in this variable.
         pid_t sound_playback_proc;
 
-
-        // TODO: create pipe
-
+        // pipe to communicate with child
+        int pipefd[2];
+        if (pipe(pipefd) == -1)
+        {
+                perror("pipe");
+                exit(-1);
+        }
+        
         // fork to create child process
         sound_playback_proc = fork();
 
@@ -51,11 +56,19 @@ int main(int argc, char **argv)
 
         if(sound_playback_proc == 0)
         {
-                // MAIN FOR CHILD
+                // Close unused write end of pipe
+                close(pipefd[1]);
                 
                 // if the current proc is the child,
                 // return if main function returns
-                return sound_playback_proc_main();
+                int child_return_code;
+
+                // MAIN FOR CHILD
+                child_return_code = sound_playback_proc_main(pipefd[0]);
+
+                // close read end of pipe and return
+                close(pipefd[0]);
+                return child_return_code;
         }
         else
         {
@@ -70,6 +83,9 @@ int main(int argc, char **argv)
                 int wait_status;
                 pid_t waitpid_value;
 
+                // Close unused read end of pipe
+                close(pipefd[0]);
+                
                 // variable to save signal() return value
                 void (*prev_handler)(int);
 
@@ -83,9 +99,11 @@ int main(int argc, char **argv)
                         // try to execute anyway
                 }
 
+                
                 // MAIN FOR PARENT
-                parent_return_code = msg_parse_proc_main();
+                parent_return_code = msg_parse_proc_main(pipefd[1]);
 
+                
                 // child terminated and SIGCHLD was caught
                 if(child_exited == 1)
                 {
@@ -152,9 +170,11 @@ int main(int argc, char **argv)
                         }
                 }
 
+                // close write end of pipe
+                close(pipefd[1]);
+
                 // PARENT RETURN
                 return parent_return_code;
-                
         }
         //TODO: Parent needs SIGCHLD handler
         //TODO: how to make sure child exits on term signal?

@@ -5,7 +5,7 @@ all: main.o soundserver_test_main.o rmq_interface.o play_sound.o
 main.o: main.c
 	gcc -c main.c
 
-soundserver_test_main.o: soundserver_test_main.c
+soundserver_test_main.o: soundserver_parent_main.c soundserver_parent_main.h
 	gcc -c soundserver_test_main.c
 
 rmq_interface.o: rmq_interface.c rmq_interface.h

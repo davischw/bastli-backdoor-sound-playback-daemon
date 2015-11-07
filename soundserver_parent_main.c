@@ -2,6 +2,9 @@
 
 #include "soundserver_parent_main.h"
 
+const char *sounds_dir_2 = "std_sounds/";
+const char *failsound_2 = "std_sounds/jungle2.wav";
+
 
 int msg_parse_proc_main(int pipe_write)
 {

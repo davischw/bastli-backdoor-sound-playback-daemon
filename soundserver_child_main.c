@@ -2,6 +2,10 @@
 
 #include "soundserver_child_main.h"
 
+// needs slash at end
+const char *sounds_dir = "std_sounds/";
+
+const char *failsound = "std_sounds/jungle2.wav";
 
 int sound_playback_proc_main(int pipe_read)
 {

@@ -21,9 +21,9 @@
 
 
 // needs slash at end
-const char *sounds_dir_2 = "std_sounds/";
+extern const char *sounds_dir_2;
 
-const char *failsound_2 = "std_sounds/jungle2.wav";
+extern const char *failsound_2;
 
 
 int msg_parse_proc_main(int pipe_write);

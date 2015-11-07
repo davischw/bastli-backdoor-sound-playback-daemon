@@ -46,7 +46,7 @@ int play_sound(const char *filename)
                 return sound_sample_playback_fail;
         }
 
-        // TODO: remove
+        // NOTE: blocking here
         while(Mix_PlayingMusic());
 
         Mix_FreeMusic(sample);

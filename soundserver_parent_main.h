@@ -16,12 +16,8 @@
 // json-c library
 #include <json-c/json.h>
 
-// SDL libraries (sound playback)
-#include <SDL/SDL_mixer.h>
-
 // local headers
 #include "rmq_interface.h"
-#include "play_sound.h"
 
 
 // needs slash at end

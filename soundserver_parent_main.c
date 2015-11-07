@@ -56,15 +56,6 @@ int msg_parse_proc_main(int pipe_write)
                         if(json_object_object_get_ex(extracted_field, "sound", &inner_field) &&
                            json_object_get_string_len(inner_field) > 0)
                         {
-                                // don't play music if something is already playing
-                                if(Mix_PlayingMusic())
-                                {
-                                        json_object_put(json_msg);
-                                        amqp_destroy_envelope(&envelope);
-                                        continue;                        
-                                }
-
-
                                 // memory is somehow managed by json library, so no free()ing
                                 json_filename = json_object_get_string(inner_field);
                                 
@@ -85,9 +76,6 @@ int msg_parse_proc_main(int pipe_write)
                                         strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
                                         filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
 
-                                        // testing
-                                        //printf("sounddir=%s\njson_filename=%s\nfilename=%s\n",sounds_dir,json_filename,filename);
-                                        
                                         // check whether file exists (and thus filename is valid)
                                         // by trying to read-open it
                                         audiofile = fopen(filename, "r");
@@ -96,15 +84,12 @@ int msg_parse_proc_main(int pipe_write)
                                         if(NULL != audiofile)
                                         {
                                                 fclose(audiofile);
-                                                if(sound_success != play_sound(filename))
-                                                {
-                                                        play_sound(failsound);
-                                                }
-                                                //break;
+
+                                                write(pipe_write, filename, strlen(filename));
                                         }
                                         else
                                         {
-                                                play_sound(failsound);
+                                                write(pipe_write, failsound, strlen(failsound));
                                         }
                                         
                                         free(filename);
@@ -112,7 +97,7 @@ int msg_parse_proc_main(int pipe_write)
                                 }
                                 else
                                 {
-                                        play_sound(failsound);
+                                        write(pipe_write, failsound, strlen(failsound));
                                 }
                         }
                 }

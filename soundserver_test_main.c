@@ -2,6 +2,7 @@
 
 // libc libraries
 #include <stdio.h>
+#include <stdlib.h>
 
 // UNIX libraries
 #include <unistd.h>

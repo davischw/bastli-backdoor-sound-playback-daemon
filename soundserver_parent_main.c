@@ -64,7 +64,7 @@ int msg_parse_proc_main(int pipe_write)
                                    NULL == strchr(json_filename, '\\'))
                                 {
                                         // add directory to filename
-                                        filename = (char *) malloc(strlen(json_filename)+strlen(sounds_dir)+1);
+                                        filename = (char *) malloc(strlen(json_filename)+strlen(sounds_dir_2)+1);
 
                                         if(filename == NULL)
                                         {
@@ -72,9 +72,9 @@ int msg_parse_proc_main(int pipe_write)
                                                 exit(11);
                                         }
                                         
-                                        strncpy(filename, sounds_dir, strlen(sounds_dir));
-                                        strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
-                                        filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
+                                        strncpy(filename, sounds_dir_2, strlen(sounds_dir_2));
+                                        strncpy(filename+strlen(sounds_dir_2), json_filename, strlen(json_filename));
+                                        filename[strlen(json_filename)+strlen(sounds_dir_2)] = '\0';
 
                                         // check whether file exists (and thus filename is valid)
                                         // by trying to read-open it
@@ -89,7 +89,7 @@ int msg_parse_proc_main(int pipe_write)
                                         }
                                         else
                                         {
-                                                write(pipe_write, failsound, strlen(failsound));
+                                                write(pipe_write, failsound_2, strlen(failsound_2));
                                         }
                                         
                                         free(filename);
@@ -97,7 +97,7 @@ int msg_parse_proc_main(int pipe_write)
                                 }
                                 else
                                 {
-                                        write(pipe_write, failsound, strlen(failsound));
+                                        write(pipe_write, failsound_2, strlen(failsound_2));
                                 }
                         }
                 }

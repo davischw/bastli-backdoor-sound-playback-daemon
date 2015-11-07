@@ -2,6 +2,7 @@
 
 // libc libraries
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 
 // UNIX libraries, POSIX.1-2001 conforming

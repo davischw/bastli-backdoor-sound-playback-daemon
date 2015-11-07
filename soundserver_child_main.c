@@ -10,10 +10,15 @@ const char *failsound = "std_sounds/jungle2.wav";
 int sound_playback_proc_main(int pipe_read)
 {
         ssize_t num_bytes_read = 0;
+
+        struct pollfd pfd;
+        pfd.fd = pipe_read;
+        pfd.events = POLLIN;
+        
         char buf[255];
         buf[254]='\0';
-        
-        
+
+
         while(1)
         {
                 num_bytes_read = read(pipe_read, &buf, 254);
@@ -101,6 +106,17 @@ int sound_playback_proc_main(int pipe_read)
 
                 
                 // clear remaining buffer
-                while(read(pipe_read, &buf,254) > 0);
+                while(poll(pfd, 1, 0) > 0)
+                {
+                        if(pfd.revents == POLLIN)
+                        {
+                                read(pipe_read, &buf,254);
+                        }
+                        else
+                        {
+                                // TODO
+                                exit(-1);
+                        }
+                }
         }
 }

@@ -34,6 +34,8 @@ void sigchld_handler(int sig)
 }
 
 
+// TODO: terminate child if parent has terminated
+
 int main(int argc, char **argv)
 {
         // the child process is for sound playback.

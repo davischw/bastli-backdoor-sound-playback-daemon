@@ -9,6 +9,7 @@
 
 // UNIX libraries
 #include <unistd.h>
+#include <poll.h>
 
 // SDL libraries (sound playback)
 #include <SDL/SDL_mixer.h>

@@ -106,7 +106,7 @@ int sound_playback_proc_main(int pipe_read)
 
                 
                 // clear remaining buffer
-                while(poll(pfd, 1, 0) > 0)
+                while(poll(&pfd, 1, 0) > 0)
                 {
                         if(pfd.revents == POLLIN)
                         {

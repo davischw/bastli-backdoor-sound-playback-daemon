@@ -15,6 +15,8 @@
 
 
 #include "soundserver_parent_main.h"
+#include "soundserver_child_main.h"
+
 
 #define STATUS_UNCHANGED 0
 #define STATUS_ERROR -1

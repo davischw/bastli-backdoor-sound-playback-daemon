@@ -43,10 +43,9 @@ int sound_playback_proc_main(int pipe_read)
                         exit(-1);
                 }
 
+                // set terminating nullchar to fix string size to
+                // current filename
                 buf[num_bytes_read] = '\0';
-                
-
-
 
                 // don't play music if something is already playing
                 if(Mix_PlayingMusic())

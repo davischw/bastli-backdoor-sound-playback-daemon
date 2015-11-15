@@ -15,13 +15,13 @@ int sound_playback_proc_main(int pipe_read)
         pfd.fd = pipe_read;
         pfd.events = POLLIN;
         
-        char buf[255];
-        buf[254]='\0';
+        char buf[FNBUF_S+1];
+        buf[FNBUF_S]='\0';
 
 
         while(1)
         {
-                num_bytes_read = read(pipe_read, &buf, 254);
+                num_bytes_read = read(pipe_read, &buf, FNBUF_S);
 
                 if(num_bytes_read == 0)
                 {

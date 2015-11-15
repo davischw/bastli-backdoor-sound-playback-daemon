@@ -18,6 +18,9 @@
 #include "play_sound.h"
 
 
+// limits filename length
+#define FNBUF_S 254
+
 // needs slash at end
 extern const char *sounds_dir;
 

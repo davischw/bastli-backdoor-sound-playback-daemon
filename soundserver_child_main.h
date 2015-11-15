@@ -6,6 +6,7 @@
 // libc libraries
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // UNIX libraries
 #include <unistd.h>
@@ -21,10 +22,10 @@
 // limits filename length
 #define FNBUF_S 254
 
-// needs slash at end
-extern const char *sounds_dir;
 
 extern const char *failsound;
+// needs slash at end
+extern const char *sounds_dir;
 
 
 int sound_playback_proc_main(int pipe_read);

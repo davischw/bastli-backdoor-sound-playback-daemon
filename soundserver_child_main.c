@@ -2,10 +2,10 @@
 
 #include "soundserver_child_main.h"
 
+const char *failsound = "std_sounds/jungle2.wav";
 // needs slash at end
 const char *sounds_dir = "std_sounds/";
 
-const char *failsound = "std_sounds/jungle2.wav";
 
 int sound_playback_proc_main(int pipe_read)
 {
@@ -53,58 +53,65 @@ int sound_playback_proc_main(int pipe_read)
                         continue;                        
                 }
 
-                // NOTE: play_sound is blocking!
+
+                // check whether filename has no directories inside
+                if(NULL == strchr(buf, '/') &&
+                   NULL == strchr(buf, '\\'))
+                {
+                        // add directory to filename
+                        filename = (char *) malloc(strlen(buf)+strlen(sounds_dir)+1);
+
+                        if(filename == NULL)
+                        {
+                                fprintf(stderr, "could not allocate memory for filepath string");
+                                exit(11);
+                        }
+
+                        strncpy(filename, sounds_dir, strlen(sounds_dir));
+                        strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
+                        filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
+
+                        // testing
+                        //printf("sounddir=%s\njson_filename=%s\nfilename=%s\n",sounds_dir,json_filename,filename);
+                                        
+                        // check whether file exists (and thus filename is valid)
+                        // by trying to read-open it
+                        audiofile = fopen(filename, "r");
+
+                        if(NULL != audiofile)
+                        {
+                                // i hope the compiler doesn't optimize this check for existing file away
+                                fclose(audiofile);
+
+                                // actually play sound
+                                // NOTE: play_sound is blocking!
+                                if(sound_success != play_sound(filename))
+                                {
+                                        play_sound(failsound);
+                                }
+                         }
+                        else
+                        {
+                                play_sound(failsound);
+                        }
+                                        
+                        free(filename);
+                        filename = NULL;
+                }
+
+
+                // actually play sound
+
                 if(sound_success != play_sound(buf))
                 {
                         play_sound(failsound);
                 }
 
 
-                // TODO: add directory in child process?
+                // clear remaining buffer to avoid playing new
+                // sounds that we got while playing the sound
+                // that just finished
                 
-                /*
-                // add directory to filename
-                filename = (char *) malloc(strlen(json_filename)+strlen(sounds_dir)+1);
-
-                if(filename == NULL)
-                {
-                        fprintf(stderr, "could not allocate memory for filepath string");
-                        exit(11);
-                }
-                                        
-                strncpy(filename, sounds_dir, strlen(sounds_dir));
-                strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
-                filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
-
-                // testing
-                //printf("sounddir=%s\njson_filename=%s\nfilename=%s\n",sounds_dir,json_filename,filename);
-                                        
-                // check whether file exists (and thus filename is valid)
-                // by trying to read-open it
-                audiofile = fopen(filename, "r");
-
-                // i hope the compiler doesn't optimize this away
-                if(NULL != audiofile)
-                {
-                        fclose(audiofile);
-                        if(sound_success != play_sound(filename))
-                        {
-                                play_sound(failsound);
-                        }
-                        //break;
-                }
-                else
-                {
-                        play_sound(failsound);
-                }
-                                        
-                free(filename);
-                filename = NULL;
-                */
-
-
-                
-                // clear remaining buffer
                 while(poll(&pfd, 1, 0) > 0)
                 {
                         if(pfd.revents == POLLIN)

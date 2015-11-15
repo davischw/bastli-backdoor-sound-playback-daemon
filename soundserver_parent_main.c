@@ -2,9 +2,6 @@
 
 #include "soundserver_parent_main.h"
 
-const char *sounds_dir_2 = "std_sounds/";
-const char *failsound_2 = "std_sounds/jungle2.wav";
-
 
 int msg_parse_proc_main(int pipe_write)
 {
@@ -61,47 +58,9 @@ int msg_parse_proc_main(int pipe_write)
                         {
                                 // memory is somehow managed by json library, so no free()ing
                                 json_filename = json_object_get_string(inner_field);
-                                
-                                // check whether filename has no directories inside
-                                if(NULL == strchr(json_filename, '/') &&
-                                   NULL == strchr(json_filename, '\\'))
-                                {
-                                        // add directory to filename
-                                        filename = (char *) malloc(strlen(json_filename)+strlen(sounds_dir_2)+1);
 
-                                        if(filename == NULL)
-                                        {
-                                                fprintf(stderr, "could not allocate memory for filepath string");
-                                                exit(11);
-                                        }
-                                        
-                                        strncpy(filename, sounds_dir_2, strlen(sounds_dir_2));
-                                        strncpy(filename+strlen(sounds_dir_2), json_filename, strlen(json_filename));
-                                        filename[strlen(json_filename)+strlen(sounds_dir_2)] = '\0';
-
-                                        // check whether file exists (and thus filename is valid)
-                                        // by trying to read-open it
-                                        audiofile = fopen(filename, "r");
-
-                                        // i hope the compiler doesn't optimize this away
-                                        if(NULL != audiofile)
-                                        {
-                                                fclose(audiofile);
-
-                                                write(pipe_write, filename, strlen(filename));
-                                        }
-                                        else
-                                        {
-                                                write(pipe_write, failsound_2, strlen(failsound_2));
-                                        }
-                                        
-                                        free(filename);
-                                        filename = NULL;
-                                }
-                                else
-                                {
-                                        write(pipe_write, failsound_2, strlen(failsound_2));
-                                }
+                                // notify child of new sound file to be played
+                                write(pipe_write, json_filename, strlen(json_filename));
                         }
                 }
                 

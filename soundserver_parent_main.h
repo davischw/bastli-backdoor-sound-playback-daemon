@@ -20,12 +20,6 @@
 #include "rmq_interface.h"
 
 
-// needs slash at end
-extern const char *sounds_dir_2;
-
-extern const char *failsound_2;
-
-
 int msg_parse_proc_main(int pipe_write);
 
 

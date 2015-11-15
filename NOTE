@@ -24,6 +24,11 @@ user running the software has to be in the audio group:
  sudo usermod -aG audio <user>
 then logout and login again with <user>
 
+accepts sound file names that don't contain a forward or
+backward slash (so no folder/subfolder files possible).
+the maximum filename length is fixed by the preprocessor
+macro FNBUF_S defined in soundserver_child_main.h
+
 
 # outdated
 compile with

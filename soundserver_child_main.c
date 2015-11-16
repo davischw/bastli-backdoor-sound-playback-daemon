@@ -15,6 +15,10 @@ int sound_playback_proc_main(int pipe_read)
         pfd.fd = pipe_read;
         pfd.events = POLLIN;
         
+        // sound playback variables
+        FILE *audiofile = NULL;
+        char *filename = NULL;
+
         char buf[FNBUF_S+1];
         buf[FNBUF_S]='\0';
 
@@ -68,11 +72,11 @@ int sound_playback_proc_main(int pipe_read)
                         }
 
                         strncpy(filename, sounds_dir, strlen(sounds_dir));
-                        strncpy(filename+strlen(sounds_dir), json_filename, strlen(json_filename));
-                        filename[strlen(json_filename)+strlen(sounds_dir)] = '\0';
+                        strncpy(filename+strlen(sounds_dir), buf, strlen(buf));
+                        filename[strlen(buf)+strlen(sounds_dir)] = '\0';
 
                         // testing
-                        //printf("sounddir=%s\njson_filename=%s\nfilename=%s\n",sounds_dir,json_filename,filename);
+                        //printf("sounddir=%s\nbuf=%s\nfilename=%s\n",sounds_dir,buf,filename);
                                         
                         // check whether file exists (and thus filename is valid)
                         // by trying to read-open it

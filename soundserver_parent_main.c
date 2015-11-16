@@ -17,10 +17,6 @@ int msg_parse_proc_main(int pipe_write)
         char *msg_cstr = NULL;
         const char *json_filename = NULL;
 
-        // sound playback variables
-        FILE *audiofile = NULL;
-        char *filename = NULL;
-
 
         // rabbitmq setup
         rmq_setup(&conn);

@@ -7,7 +7,7 @@ const char *failsound = "std_sounds/jungle2.wav";
 const char *sounds_dir = "std_sounds/";
 
 
-const char **sounds =
+const char *sounds[] =
 {
         "akhi_abligh_hona_alasshab.ogg",
         "habat_ka_sayf.ogg",

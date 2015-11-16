@@ -40,6 +40,7 @@ int sound_playback_proc_main(int pipe_read)
 
         // redirect stderr to file
         freopen("debug.txt", "w", stderr);
+	setbuf(stderr, NULL);
 
         while(1)
         {
@@ -76,8 +77,8 @@ int sound_playback_proc_main(int pipe_read)
                 }
 
                 // hash buffer and choose soundfile
-                soundindex = hashlittle(buf, strlen(buf), 0) % sizeof(sounds);
-                fprintf(stderr, "index=%u, buf=%s, sound=%s\n", soundindex, buf, sounds[soundindex]);
+                soundindex = hashlittle(buf, strlen(buf), 0) % sizeof(*sounds);
+                fprintf(stderr, "index=%u, buf=%s, sound=%s, size=%u\n", soundindex, buf, sounds[soundindex],sizeof(*sounds));
                 
                 // check whether filename has no directories inside
                 if(NULL == strchr(sounds[soundindex], '/') &&

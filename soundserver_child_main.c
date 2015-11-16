@@ -11,12 +11,12 @@ const char *sounds[] =
 {
         "akhi_abligh_hona_alasshab.ogg",
         "habat_ka_sayf.ogg",
-        "hebbit_kerrih.ogg",
+        "srna.ogg",
         "ziegenficker.ogg",
+        "hebbit_kerrih.ogg",
         "qum.ogg",
         "salil_sawarim.ogg",
-        "srna.ogg"
-        "saraya_dawlati.ogg",
+        "saraya_dawlati.ogg"
 };
 
 

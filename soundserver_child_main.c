@@ -7,6 +7,16 @@ const char *failsound = "std_sounds/jungle2.wav";
 const char *sounds_dir = "std_sounds/";
 
 
+const char **sounds =
+{
+        "blub",
+        "foo"
+};
+
+
+
+
+
 int sound_playback_proc_main(int pipe_read)
 {
         ssize_t num_bytes_read = 0;

@@ -28,6 +28,8 @@ extern uint32_t hashlittle(const void *key, size_t length, uint32_t initval);
 
 // string constants
 
+// contains an array of existing sound files
+extern const char **sounds;
 // sound that is played when something goes wrong
 extern const char *failsound;
 // directory where sounds are in, needs slash at end

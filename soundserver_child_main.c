@@ -9,12 +9,15 @@ const char *sounds_dir = "std_sounds/";
 
 const char **sounds =
 {
-        "blub",
-        "foo"
+        "akhi_abligh_hona_alasshab.ogg",
+        "habat_ka_sayf.ogg",
+        "hebbit_kerrih.ogg",
+        "ziegenficker.ogg",
+        "qum.ogg",
+        "salil_sawarim.ogg",
+        "srna.ogg"
+        "saraya_dawlati.ogg",
 };
-
-
-
 
 
 int sound_playback_proc_main(int pipe_read)

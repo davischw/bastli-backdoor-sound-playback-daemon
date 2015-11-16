@@ -117,14 +117,6 @@ int sound_playback_proc_main(int pipe_read)
                 }
 
 
-                // actually play sound
-
-                if(sound_success != play_sound(buf))
-                {
-                        play_sound(failsound);
-                }
-
-
                 // clear remaining buffer to avoid playing new
                 // sounds that we got while playing the sound
                 // that just finished

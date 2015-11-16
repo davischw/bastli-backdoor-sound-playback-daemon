@@ -26,8 +26,11 @@ extern uint32_t hashlittle(const void *key, size_t length, uint32_t initval);
 #define FNBUF_S 254
 
 
+// string constants
+
+// sound that is played when something goes wrong
 extern const char *failsound;
-// needs slash at end
+// directory where sounds are in, needs slash at end
 extern const char *sounds_dir;
 
 

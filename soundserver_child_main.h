@@ -18,6 +18,9 @@
 // local headers
 #include "play_sound.h"
 
+// lookup3.c hash function
+extern uint32_t hashlittle(const void *key, size_t length, uint32_t initval);
+
 
 // limits filename length
 #define FNBUF_S 254

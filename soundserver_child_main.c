@@ -32,6 +32,9 @@ int sound_playback_proc_main(int pipe_read)
         FILE *audiofile = NULL;
         char *filename = NULL;
 
+        // lookup3 variable
+        uint32_t soundindex = 0;
+
         char buf[FNBUF_S+1];
         buf[FNBUF_S]='\0';
 
@@ -67,16 +70,18 @@ int sound_playback_proc_main(int pipe_read)
                 // don't play music if something is already playing
                 if(Mix_PlayingMusic())
                 {
-                        continue;                        
+                        continue;                     
                 }
 
+                // hash buffer and choose soundfile
+                soundindex = hashlittle(buf, strlen(buf), 0) % sizeof(sounds);
 
                 // check whether filename has no directories inside
-                if(NULL == strchr(buf, '/') &&
-                   NULL == strchr(buf, '\\'))
+                if(NULL == strchr(sounds[soundindex], '/') &&
+                   NULL == strchr(sounds[soundindex], '\\'))
                 {
                         // add directory to filename
-                        filename = (char *) malloc(strlen(buf)+strlen(sounds_dir)+1);
+                        filename = (char *) malloc(strlen(sounds[soundindex])+strlen(sounds_dir)+1);
 
                         if(filename == NULL)
                         {
@@ -85,12 +90,12 @@ int sound_playback_proc_main(int pipe_read)
                         }
 
                         strncpy(filename, sounds_dir, strlen(sounds_dir));
-                        strncpy(filename+strlen(sounds_dir), buf, strlen(buf));
-                        filename[strlen(buf)+strlen(sounds_dir)] = '\0';
+                        strncpy(filename+strlen(sounds_dir), sounds[soundindex], strlen(sounds[soundindex]));
+                        filename[strlen(sounds[soundindex])+strlen(sounds_dir)] = '\0';
 
                         // testing
                         //printf("sounddir=%s\nbuf=%s\nfilename=%s\n",sounds_dir,buf,filename);
-                                        
+                        
                         // check whether file exists (and thus filename is valid)
                         // by trying to read-open it
                         audiofile = fopen(filename, "r");

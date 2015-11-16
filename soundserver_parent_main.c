@@ -49,7 +49,7 @@ int msg_parse_proc_main(int pipe_write)
                 // search for a filename field
                 if(json_object_object_get_ex(json_msg, "cmd", &extracted_field))
                 {
-                        if(json_object_object_get_ex(extracted_field, "sound", &inner_field) &&
+                        if(json_object_object_get_ex(extracted_field, "name", &inner_field) &&
                            json_object_get_string_len(inner_field) > 0)
                         {
                                 // memory is somehow managed by json library, so no free()ing

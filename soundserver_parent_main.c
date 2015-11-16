@@ -55,8 +55,10 @@ int msg_parse_proc_main(int pipe_write)
                                 // memory is somehow managed by json library, so no free()ing
                                 json_filename = json_object_get_string(inner_field);
 
+                                fprintf(stderr,"fn=%s\n",json_filename);
                                 // notify child of new sound file to be played
                                 write(pipe_write, json_filename, strlen(json_filename));
+                                fprintf(stderr,"post-write\n");
                         }
                 }
                 

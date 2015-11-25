@@ -1,6 +1,6 @@
 
 all: main.o soundserver_parent_main.o soundserver_child_main.o rmq_interface.o play_sound.o lookup3.o
-	gcc -lSDL_mixer -lSDL -lrabbitmq -ljson-c -o sound_test soundserver_parent_main.o soundserver_child_main.o rmq_interface.o play_sound.o lookup3.o main.o 
+	gcc -lSDL_mixer -lSDL -lrabbitmq -ljson-c -o ummah.exe soundserver_parent_main.o soundserver_child_main.o rmq_interface.o play_sound.o lookup3.o main.o 
 
 main.o: main.c
 	gcc -c main.c

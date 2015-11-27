@@ -142,6 +142,7 @@ int main(int argc, char **argv)
                                 // waitpid() above)
 
                                 // if the process does not exist, we just assume it's already terminated and exit normally
+                                // otherwise, something went wrong while attempting to kill the child process
                                 if(ESRCH != errno)
                                 {
                                         fprintf(stderr, "could not kill child process");
@@ -167,7 +168,7 @@ int main(int argc, char **argv)
                         // an uncaught signal
                         if(WIFSIGNALED(wait_status))
                         {
-                                
+                                fprintf(stderr, "child terminated of uncaught signal, this should not happen.\n");
                         }
                         // notice if child didn't terminate, this shouldn't happen normally
                         else if(!WIFEXITED(wait_status))

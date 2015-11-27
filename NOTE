@@ -29,6 +29,17 @@ backward slash (so no folder/subfolder files possible).
 the maximum filename length is fixed by the preprocessor
 macro FNBUF_S defined in soundserver_child_main.h
 
+To run in background, use daemonize(1), an excellent wrapper
+that prevents lock-in to a specific init system. On arch no
+package seems to exist, install according to instructions:
+http://software.clapper.org/daemonize/
+
+
+run ummah mod with
+./ummah.exe
+
+run ummah mod in background with
+daemonize -c /home/bastli/soundserver/ -p /var/run/soundserver.pid -l /var/lock/soundserver.lock /home/bastli/soundserver/ummah.exe
 
 # outdated
 compile with

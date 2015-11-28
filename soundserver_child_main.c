@@ -6,7 +6,7 @@ const char *failsound = "std_sounds/jungle2.wav";
 // needs slash at end
 const char *sounds_dir = "std_sounds/";
 
-
+#ifdef UMMAH
 const char *sounds[] =
 {
         "akhi_abligh_hona_alasshab.ogg",
@@ -18,10 +18,17 @@ const char *sounds[] =
         "salil_sawarim.ogg",
         "saraya_dawlati.ogg"
 };
+#endif
 
 
 int sound_playback_proc_main(int pipe_read)
 {
+        // switch parameter that points to the
+        // variable where the suggested filename
+        // is stored before setting together the path
+        // to avoid too many IFDEFs
+        char *fn_parm = NULL;
+        
         ssize_t num_bytes_read = 0;
 
         struct pollfd pfd;
@@ -32,8 +39,10 @@ int sound_playback_proc_main(int pipe_read)
         FILE *audiofile = NULL;
         char *filename = NULL;
 
+#ifdef UMMAH
         // lookup3 variable
         uint32_t soundindex = 0;
+#endif
 
         char buf[FNBUF_S+1];
         buf[FNBUF_S]='\0';
@@ -73,19 +82,26 @@ int sound_playback_proc_main(int pipe_read)
                 // don't play music if something is already playing
                 if(Mix_PlayingMusic())
                 {
-                        continue;                     
+                        continue;
                 }
 
-                // hash buffer and choose soundfile
+
+                // make file name operations on correct file name
+                // depending on whether UMMAH mode is activated
+#ifdef UMMAH
+                // hash buffer and choose soundfile from hash
                 soundindex = hashlittle(buf, strlen(buf), 0) % sizeof(*sounds);
-                fprintf(stderr, "index=%u, buf=%s, sound=%s, size=%u\n", soundindex, buf, sounds[soundindex],sizeof(*sounds));
+                fn_parm = sounds[soundindex];
+#else /* NOT UMMAH */
+                fn_parm = buf;
+#endif
                 
                 // check whether filename has no directories inside
-                if(NULL == strchr(sounds[soundindex], '/') &&
-                   NULL == strchr(sounds[soundindex], '\\'))
+                if(NULL == strchr(fn_parm, '/') &&
+                   NULL == strchr(fn_parm, '\\'))
                 {
                         // add directory to filename
-                        filename = (char *) malloc(strlen(sounds[soundindex])+strlen(sounds_dir)+1);
+                        filename = (char *) malloc(strlen(fn_parm)+strlen(sounds_dir)+1);
 
                         if(filename == NULL)
                         {
@@ -94,11 +110,11 @@ int sound_playback_proc_main(int pipe_read)
                         }
 
                         strncpy(filename, sounds_dir, strlen(sounds_dir));
-                        strncpy(filename+strlen(sounds_dir), sounds[soundindex], strlen(sounds[soundindex]));
-                        filename[strlen(sounds[soundindex])+strlen(sounds_dir)] = '\0';
+                        strncpy(filename+strlen(sounds_dir), fn_parm, strlen(fn_parm));
+                        filename[strlen(fn_parm)+strlen(sounds_dir)] = '\0';
 
                         // testing
-                        //printf("sounddir=%s\nbuf=%s\nfilename=%s\n",sounds_dir,buf,filename);
+                        //printf("sounddir=%s\nfile parameter=%s\nfilename=%s\n",sounds_dir,fn_parm,filename);
                         
                         // check whether file exists (and thus filename is valid)
                         // by trying to read-open it
@@ -106,7 +122,8 @@ int sound_playback_proc_main(int pipe_read)
 
                         if(NULL != audiofile)
                         {
-                                // i hope the compiler doesn't optimize this check for existing file away
+                                // i hope the compiler doesn't optimize this check
+                                // for existing file away
                                 fclose(audiofile);
 
                                 // actually play sound

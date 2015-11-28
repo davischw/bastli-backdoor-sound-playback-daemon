@@ -20,6 +20,11 @@
 #include "rmq_interface.h"
 
 
+// string constant switch for UMMAH mod
+// in UMMAH mod we take the name and hash it
+// otherwise we take the passed filename
+extern const char *json_file_param;
+
 int msg_parse_proc_main(int pipe_write);
 
 

@@ -19,9 +19,10 @@
 // local headers
 #include "play_sound.h"
 
+#ifdef UMMAH
 // lookup3.c hash function
 extern uint32_t hashlittle(const void *key, size_t length, uint32_t initval);
-
+#endif /* UMMAH */
 
 // limits filename length
 #define FNBUF_S 254
@@ -29,10 +30,13 @@ extern uint32_t hashlittle(const void *key, size_t length, uint32_t initval);
 
 // string constants
 
+#ifdef UMMAH
 // contains an array of existing sound files
 extern const char *sounds[];
 // sound that is played when something goes wrong
 extern const char *failsound;
+#endif /* UMMAH */
+
 // directory where sounds are in, needs slash at end
 extern const char *sounds_dir;
 

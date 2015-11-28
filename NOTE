@@ -7,6 +7,9 @@ on the user that opens the lock or a specified sound file.
 
 depends on sdl_mixer, install under arch with
  sudo pacman -S extra/sdl_mixer
+on debian: install package
+libsdl-mixer1.2-dev
+(version number will probably change in the future)
 
 also depends on sdl, but that should be already installed
 as a dependency when installing sdl_mixer
@@ -14,13 +17,16 @@ as a dependency when installing sdl_mixer
 depends on librabbitmq
 no package on arch linux available
 library installation on arch linux strange
-on debian install package librabbitmq1
+on debian: install package
+librabbitmq1
 
 depends on json-c, which is the only one i managed
 to get to run with arch because it was already
 installed (why are the infos on arch packages website
 and in pacman completely different?):
 local/json-c
+on debian: install package
+libjson-c-dev
 
 depends on a libc which supports the %z printf formatstring
 modifier, MSVC uses %I instead of the standard, thanks oballmer

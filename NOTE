@@ -1,3 +1,10 @@
+This software listens on rabbitmq messages that are actually a
+command to open a lock (eg. backdoor) and plays a sound depending
+on the user that opens the lock or a specified sound file.
+
+
+### Dependencies
+
 depends on sdl_mixer, install under arch with
  sudo pacman -S extra/sdl_mixer
 
@@ -18,7 +25,13 @@ local/json-c
 depends on a libc which supports the %z printf formatstring
 modifier, MSVC uses %I instead of the standard, thanks oballmer
 
+
+### Building
+
 build with make
+
+
+### Usage hints
 
 user running the software has to be in the audio group:
  sudo usermod -aG audio <user>
@@ -35,11 +48,16 @@ package seems to exist, install according to instructions:
 http://software.clapper.org/daemonize/
 
 
+### Usage
+
 run ummah mod with
 ./ummah.exe
 
 run ummah mod in background with
 daemonize -c /home/bastli/soundserver/ -p /var/run/soundserver.pid -l /var/lock/soundserver.lock /home/bastli/soundserver/ummah.exe
+
+
+
 
 # outdated
 compile with

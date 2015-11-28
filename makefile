@@ -5,7 +5,7 @@ link = ${cc} -lSDL_mixer -lSDL -lrabbitmq -ljson-c
 
 
 codefiles = main.c ${codefiles_with_headers}
-codefiles_ummah = codefiles lookup3.c
+codefiles_ummah = ${codefiles} lookup3.c
 codefiles_with_headers = soundserver_parent_main.c soundserver_child_main.c rmq_interface.c play_sound.c
 headers = ${codefiles_with_headers:.c=.h}
 objects = ${codefiles:.c=.o}

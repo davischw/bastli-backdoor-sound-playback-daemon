@@ -27,7 +27,7 @@ int sound_playback_proc_main(int pipe_read)
         // variable where the suggested filename
         // is stored before setting together the path
         // to avoid too many IFDEFs
-        char *fn_parm = NULL;
+        const char *fn_parm = NULL;
         
         ssize_t num_bytes_read = 0;
 

@@ -43,6 +43,11 @@ user running the software has to be in the audio group:
  sudo usermod -aG audio <user>
 then logout and login again with <user>
 
+On a raspberry pi with HDMI monitor connected, alsa might
+use sound output over HDMI instead of headphone jack by
+default. To force headphone jack output, run:
+sudo amixer -c 0 cset numid=3 1
+
 accepts sound file names that don't contain a forward or
 backward slash (so no folder/subfolder files possible).
 the maximum filename length is fixed by the preprocessor

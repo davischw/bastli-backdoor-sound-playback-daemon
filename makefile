@@ -35,8 +35,9 @@ lookup3.o: lookup3.c
 
 
 
+ummah: comp+= -D UMMAH
 ummah: ${objects_ummah}
-	${link} -D UMMAH -o ummah.exe ${objects_ummah}
+	${link} -o ummah.exe ${objects_ummah}
 
 clean:
 	rm *.o

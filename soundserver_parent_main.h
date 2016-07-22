@@ -25,7 +25,7 @@
 // otherwise we take the passed filename
 extern const char *json_file_param;
 
-int msg_parse_proc_main(int pipe_write);
+int msg_parse_proc_main();
 
 
 #endif /* _SOUNDSERVER_PARENT_MAIN_H_ */

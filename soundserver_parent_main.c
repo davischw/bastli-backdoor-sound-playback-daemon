@@ -9,7 +9,7 @@ const char *json_file_param = "sound";
 #endif /* UMMAH */
 
 
-int msg_parse_proc_main(int pipe_write)
+int msg_parse_proc_main()
 {
         // rabbitmq variables
         amqp_connection_state_t conn = NULL;
@@ -60,9 +60,7 @@ int msg_parse_proc_main(int pipe_write)
                         {
                                 // memory is somehow managed by json library, so no free()ing
                                 json_filename = json_object_get_string(inner_field);
-
-                                // notify child of new sound file to be played
-                                write(pipe_write, json_filename, strlen(json_filename));
+                                libvlc_play(json_filename);
                         }
                 }
                 

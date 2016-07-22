@@ -22,7 +22,9 @@
 
 int main(int argc, char **argv)
 {
-	libvlc_init();
+	if(libvlc_init()<0){
+		return 1;
+	}
 	msg_parse_proc_main();
 	libvlc_deinit();
 }

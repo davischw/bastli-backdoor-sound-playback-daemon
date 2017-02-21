@@ -23,7 +23,7 @@ int libvlc_deinit(void){
 	return 0;
 }
 int libvlc_play(const char* file){
-	libvlc_media_t *m=libvlc_media_new_path(inst, file);
+	libvlc_media_t *m=libvlc_media_new_location(inst, file);
 	libvlc_media_player_set_media(mp,m);
 	libvlc_media_player_play(mp);
 	libvlc_media_release(m);

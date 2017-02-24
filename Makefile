@@ -13,6 +13,8 @@ sound_test: libvlc_playback.o rmq_interface.o soundserver_parent_main.o main.o
 stille: stille.c
 	$(CC) $(CFLAGS) `pkg-config --cflags --libs ao` $^ -o $@
 
-
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm *.o

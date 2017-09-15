@@ -5,32 +5,9 @@ on the user that opens the lock or a specified sound file.
 
 ### Dependencies
 
-depends on sdl_mixer, install under arch with
- sudo pacman -S extra/sdl_mixer
-on debian: install package
-libsdl-mixer1.2-dev
-(version number will probably change in the future)
-
-also depends on sdl, but that should be already installed
-as a dependency when installing sdl_mixer
-
-depends on librabbitmq
-no package on arch linux available
-library installation on arch linux strange
-on debian: install package
-librabbitmq1
-
-depends on json-c, which is the only one i managed
-to get to run with arch because it was already
-installed (why are the infos on arch packages website
-and in pacman completely different?):
-local/json-c
-on debian: install package
-libjson-c-dev
-
-depends on a libc which supports the %z printf formatstring
-modifier, MSVC uses %I instead of the standard, thanks oballmer
-
+* libvlc-dev
+* librabbitmq-dev
+* json-c
 
 ### Building
 
@@ -48,11 +25,6 @@ use sound output over HDMI instead of headphone jack by
 default. To force headphone jack output, run:
 sudo amixer -c 0 cset numid=3 1
 
-accepts sound file names that don't contain a forward or
-backward slash (so no folder/subfolder files possible).
-the maximum filename length is fixed by the preprocessor
-macro FNBUF_S defined in soundserver_child_main.h
-
 To run in background, use daemonize(1), an excellent wrapper
 that prevents lock-in to a specific init system. On arch no
 package seems to exist, install according to instructions:
@@ -66,11 +38,3 @@ run ummah mod with
 
 run ummah mod in background with
 daemonize -c /home/bastli/soundserver/ -p /var/run/soundserver.pid -l /var/lock/soundserver.lock /home/bastli/soundserver/ummah.exe
-
-
-
-
-# outdated
-compile with
- gcc -lSDL_mixer -lSDL -lrabbitmq -o sound_test soundserver_test_main.c
-

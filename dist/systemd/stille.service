@@ -1,0 +1,14 @@
+[Unit]
+Description=Service to hold the audio port open
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/stille
+Restart=always
+RestartSec=30
+User=backdoor
+Group=backdoor
+
+[Install]
+WantedBy=multi-user.target
+

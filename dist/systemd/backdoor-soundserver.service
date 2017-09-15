@@ -1,0 +1,14 @@
+[Unit]
+Description=Bastli Sound Server
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/ummah.exe
+Restart=always
+RestartSec=30
+User=backdoor
+Group=backdoor
+
+[Install]
+WantedBy=multi-user.target
+

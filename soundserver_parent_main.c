@@ -77,6 +77,7 @@ int msg_parse_proc_main()
         // TEST SETUP TO READ MESSAGES, NOT FINAL
         while (1)
         {
+                safe_space_mode = 0;
                 amqp_maybe_release_buffers(conn);
                 
                 // TODO: is envelope allocated even if error below?

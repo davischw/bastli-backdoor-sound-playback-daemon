@@ -4,6 +4,7 @@
 
 #ifdef UMMAH
 const char *json_file_param = "name";
+const char *json_safespaceflag_param = "safe_space_mode";
 #else
 const char *json_file_param = "sound";
 #endif /* UMMAH */
@@ -46,6 +47,8 @@ int msg_parse_proc_main()
 #ifdef UMMAH
         // lookup3 variable
         uint32_t soundindex = 0;
+        // safe space flag
+        char safe_space_mode = 0;
 #endif
 
         char buf[FNBUF_S+1];
@@ -95,6 +98,14 @@ int msg_parse_proc_main()
                 // search for a filename field
                 if(json_object_object_get_ex(json_msg, "cmd", &extracted_field))
                 {
+#ifdef UMMAH
+                        if(json_object_object_get_ex(extracted_field, json_safespaceflag_param, &inner_field) &&
+                           json_object_get_boolean(inner_field))
+                        {
+                            safe_space_mode = 1;
+                        }
+                        else
+#endif
                         if(json_object_object_get_ex(extracted_field, json_file_param, &inner_field) &&
                            json_object_get_string_len(inner_field) > 0)
                         {
@@ -108,15 +119,23 @@ int msg_parse_proc_main()
                 // make file name operations on correct file name
                 // depending on whether UMMAH mode is activated
 #ifdef UMMAH
-                // hash buffer and choose soundfile from hash
-                soundindex = hashlittle(buf, strlen(buf), 0) % sizeof(*sounds);
-                fn_parm = sounds[soundindex];
+                if(safe_space_mode == 0)
+                {
+                    // hash buffer and choose soundfile from hash
+                    soundindex = hashlittle(buf, strlen(buf), 0) % sizeof(*sounds);
+                    fn_parm = sounds[soundindex];
+                }
 #else /* NOT UMMAH */
                 fn_parm = buf;
 #endif
 
                 // check whether filename has no directories inside
-                if(NULL == strchr(fn_parm, '/') &&
+                if(
+#ifdef UMMAH
+                   // only play sounds if no safe space mode active
+                   safe_space_mode == 0 &&
+#endif /* UMMAH */
+                   NULL == strchr(fn_parm, '/') &&
                    NULL == strchr(fn_parm, '\\'))
                 {
                         // add directory to filename

@@ -23,6 +23,10 @@ int libvlc_deinit(void){
 	return 0;
 }
 int libvlc_play(const char* file){
+        if(1 == libvlc_media_player_is_playing(mp))
+        {
+            return 0;
+        }
 	libvlc_media_t *m=libvlc_media_new_path(inst, file);
 	libvlc_media_player_set_media(mp,m);
 	libvlc_media_player_play(mp);

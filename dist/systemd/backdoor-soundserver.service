@@ -4,6 +4,7 @@ After=network-online.target
 
 [Service]
 ExecStart=/usr/local/bin/ummah.exe
+WorkingDirectory=/usr/local/share/ummah/
 Restart=always
 RestartSec=30
 User=backdoor

@@ -2,6 +2,8 @@ CC=gcc
 CFLAGS=-g
 LDFLAGS=-lvlc -lrabbitmq -ljson-c
 
+DESTDIR?=/usr/local
+
 all: sound_test
 
 ummah.exe: CFLAGS+= -D UMMAH
@@ -19,3 +21,10 @@ stille: stille.c
 
 clean:
 	rm *.o
+
+.PHONY: install
+install: stille ummah.exe
+	install -m 755 -d $(DESTDIR)/bin $(DESTDIR)/share/ummah/
+	install -m 755 $^ $(DESTDIR)/bin
+	install -m 644 std_sounds/* $(DESTDIR)/share/ummah/
+	install -m 640 dist/systemd/*.service /usr/lib/systemd/system/

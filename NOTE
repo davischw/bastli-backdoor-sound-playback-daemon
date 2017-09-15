@@ -9,6 +9,11 @@ on the user that opens the lock or a specified sound file.
 * librabbitmq-dev
 * json-c
 
+#### stille
+
+* libao-dev
+* libasound2-plugins
+
 ### Building
 
 build with make
